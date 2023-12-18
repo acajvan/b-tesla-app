@@ -11,13 +11,13 @@ const TicketCreationScreen = () => {
     const navigation = useNavigation();
     const [customColor, setCustomColor] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
-    const [colorQuantity, setColorQuantity] = useState(0);
+    const [colorQuantity, setColorQuantity] = useState(1);
     const [isColorSelected, setIsColorSelected] = useState(false);
     const resetSelections = () => {
         setBetAmount(0);
         setSelectedColor('');
         setCustomColor('');
-        setColorQuantity(0);
+        setColorQuantity(1);
     }
 
 
@@ -55,16 +55,28 @@ const TicketCreationScreen = () => {
 
     };
 
-    const ColorButton = ({ title }) =>
+    const ColorButton = ({ title, color }) =>
         (
             <TouchableOpacity
                 style={[styles.colorButton, {background: 'blue', opacity: isColorSelected && selectedColor !== title.toLowerCase() ? 0.8 : 1 }]}
                 onPress={() => {setSelectedColor(title.toLowerCase())
-                    setColorQuantity(0);
+                    setColorQuantity(1);
                 }}>
-                <Text style={{color: title.toLowerCase() }}>{title}</Text>
+                <Text style={[styles.glowText, {color: color.toLowerCase() }]}>{title}</Text>
             </TouchableOpacity>
         )
+
+    const getColorPluralForm = (color, quantity) => {
+        const colorPlurals = {
+            neagra: 'negre',
+            alba: 'albe',
+            albastra: 'albastre',
+            gri: 'gri',
+            rosie: 'rosii',
+        };
+
+        return quantity > 1 ? colorPlurals[color] || color : color;
+    }
 
 
     return (
@@ -72,7 +84,7 @@ const TicketCreationScreen = () => {
             <TouchableOpacity
                 style={styles.homeButton}
                 onPress={() => navigation.navigate('Main')}>
-                <Icon name="home" size={30} color="#007bff" />
+                <Icon name="home" size={36} color="#8f0a6d" />
             </TouchableOpacity>
 
             <Text style={styles.header}>Biletul Zilei</Text>
@@ -91,11 +103,11 @@ const TicketCreationScreen = () => {
             {/* Add additional betting options here */}
 
             <View style={styles.colorContainer}>
-                <ColorButton title="White" />
-                <ColorButton title="Black" />
-                <ColorButton title="Grey" />
-                <ColorButton title="Blue" />
-                <ColorButton title="Red" />
+                <ColorButton title="Alba" color="White" plural="albe" />
+                <ColorButton title="Neagra" color="Black" plural="negre" />
+                <ColorButton title="Gri" color="Grey" plural="gri" />
+                <ColorButton title="Albastra" color="Blue" plural="albastre" />
+                <ColorButton title="Rosie" color="Red" plural="rosii" />
             </View>
 
             <TextInput
@@ -105,14 +117,14 @@ const TicketCreationScreen = () => {
                     setColorQuantity(0); //resting the quantity color
                 }}
                 value={customColor}
-                placeholder="Enter custom color"
+                placeholder="Alta culoare?"
+                placeholderTextColor={"white"}
             />
 
             {isColorSelected && (
                 <View style={styles.sliderContainer}>
-                    <Text>Dintre care macar {colorQuantity} sunt {selectedColor || customColor} </Text>
-                    <Slider style={styles.slider} value={colorQuantity} onValueChange={setColorQuantity} minimumValue={0} maximumValue={10} step={1} />
-                    <Text>{colorQuantity}</Text>
+                    <Text style={styles.label}>Dintre care macar {colorQuantity} {colorQuantity > 1 ? "sunt" : "este" } {getColorPluralForm(selectedColor, colorQuantity)} </Text>
+                    <Slider style={styles.slider} value={colorQuantity} onValueChange={setColorQuantity} minimumValue={1} maximumValue={10} step={1} />
                 </View>
             )}
 
@@ -138,10 +150,12 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: 'white',
     },
     label: {
         fontSize: 16,
         marginVertical: 10,
+        color: 'white',
     },
     slider: {
         width: 200,
@@ -158,7 +172,12 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 25,
         fontWeight: "bold",
-        backgroundColor: 'rgba(48,79,110,0.23)',
+        backgroundColor: 'rgb(14,107,168)',
+    },
+    glowText: {
+        textShadowColor: 'rgba(143,143,157,0.8)',
+        textShadowOffset: { width: 0, height: 0 },
+        textShadowRadius: 1,
     },
     colorContainer: {
         flexDirection: "row",
@@ -169,18 +188,20 @@ const styles = StyleSheet.create({
     },
     input: {
       borderWidth: 1,
-      borderColor: 'grey',
+      borderColor: 'black',
       borderRadius: 5,
       padding: 10,
       width: '80%',
       marginBottom: 20,
+        color: 'white',
+        backgroundColor: 'rgba(190,187,255,0.73)'
     },
     sliderContainer: {
         alignItems: "center",
         marginVertical: 10,
     },
     cancelButton: {
-        backgroundColor: 'red',
+        backgroundColor: '#8f0a6d',
         padding: 10,
         borderRadius: 5,
         marginTop: 10,

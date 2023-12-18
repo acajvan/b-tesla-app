@@ -1,7 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet} from 'react-native';
 import React from "react";
-import { NavigationContainer } from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './src/screens/MainScreen';
 import TicketCreationScreen from './src/screens/TicketCreationScreen'; // You'll create this next
@@ -9,10 +8,18 @@ import TicketCreationScreen from './src/screens/TicketCreationScreen'; // You'll
 
 const Stack = createNativeStackNavigator();
 
+const DarkTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        background: '#101d4b'
+    }
+}
+
 const App = () => {
   return (
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Main">
+      <NavigationContainer theme={DarkTheme}>
+        <Stack.Navigator screenOptions={{headerShown: false, animationEnabled: false,}} initialRouteName="Main">
           <Stack.Screen name="Main" component={MainScreen} />
           <Stack.Screen name="CreateTicket" component={TicketCreationScreen} />
         </Stack.Navigator>
@@ -21,12 +28,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#605b5b',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

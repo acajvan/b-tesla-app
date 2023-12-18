@@ -23,16 +23,6 @@ const MainScreen = () => {
         return () => clearInterval(intervalID);
     }, []);
 
-    const createTickets = async () => {
-        const newTicket ={id: Date.now(), date: new Date().toLocaleDateString()}
-        const updatedTickets = [...tickets, newTicket];
-        setTickets(updatedTickets);
-        await AsyncStorage.setItem('tickets', JSON.stringify(updatedTickets));
-        Alert.alert('Success', 'Ticket Created');
-    }
-
-
-
     return (
         <View style={styles.container}>
 
@@ -66,11 +56,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginVertical: 20,
+        color: 'white',
     },
     date:{
         fontSize: 16,
         marginTop: 10,
         textTransform: "capitalize",
+        color: 'white',
     },
     credits: {
         fontSize: 10,
