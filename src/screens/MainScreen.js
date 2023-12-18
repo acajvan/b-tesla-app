@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import MainButton from '../components/MainButton';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {useNavigation} from "@react-navigation/native";
 
 const MainScreen = () => {
-    const [tickets, setTickets] = useState([]);
+
     const [currentDateTime, setCurrentDateTime] = useState('');
     const navigation = useNavigation();
 
