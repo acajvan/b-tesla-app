@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import MainButton from '../components/MainButton';
-import SliderWithRef from "@react-native-community/slider/src/Slider";
+import Slider from "@react-native-community/slider/src/Slider";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,12 +11,26 @@ const TicketCreationScreen = () => {
     const navigation = useNavigation();
     const [customColor, setCustomColor] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
+    const [colorQuantity, setColorQuantity] = useState(0);
+    const [isColorSelected, setIsColorSelected] = useState(false);
+    const resetSelections = () => {
+        setBetAmount(0);
+        setSelectedColor('');
+        setCustomColor('');
+        setColorQuantity(0);
+    }
+
+
+    useEffect(() => {
+        setIsColorSelected(selectedColor !== '' || customColor !== '');
+    }, [selectedColor, customColor]);
 
     const createTicket = async () => {
         const newTicket = {
             id: Date.now(),
             betAmount,
             color: customColor || selectedColor,
+            colorQuantity,
             dateCreated: new Date().toISOString(),
         };
 
@@ -44,8 +58,10 @@ const TicketCreationScreen = () => {
     const ColorButton = ({ title }) =>
         (
             <TouchableOpacity
-                style={[styles.colorButton, {background: 'blue'}]}
-                onPress={() => {setSelectedColor(title.toLowerCase())}}>
+                style={[styles.colorButton, {background: 'blue', opacity: isColorSelected && selectedColor !== title.toLowerCase() ? 0.8 : 1 }]}
+                onPress={() => {setSelectedColor(title.toLowerCase())
+                    setColorQuantity(0);
+                }}>
                 <Text style={{color: title.toLowerCase() }}>{title}</Text>
             </TouchableOpacity>
         )
@@ -61,8 +77,8 @@ const TicketCreationScreen = () => {
 
             <Text style={styles.header}>Biletul Zilei</Text>
 
-            <Text style={styles.label}>Numarul de Tesla vazute azi</Text>
-            <SliderWithRef
+            <Text style={styles.label}>Numarul de Tesla vazute azi: {betAmount}</Text>
+            <Slider
                 style={styles.slider}
                 value={betAmount}
                 onValueChange={setBetAmount}
@@ -70,7 +86,7 @@ const TicketCreationScreen = () => {
                 maximumValue={25}
                 step={1}
             />
-            <Text>Total: {betAmount}</Text>
+
 
             {/* Add additional betting options here */}
 
@@ -84,12 +100,30 @@ const TicketCreationScreen = () => {
 
             <TextInput
                 style={styles.input}
-                onChangeText={setCustomColor}
+                onChangeText={(text) => {
+                    setCustomColor(text);
+                    setColorQuantity(0); //resting the quantity color
+                }}
                 value={customColor}
                 placeholder="Enter custom color"
             />
 
+            {isColorSelected && (
+                <View style={styles.sliderContainer}>
+                    <Text>Dintre care macar {colorQuantity} sunt {selectedColor || customColor} </Text>
+                    <Slider style={styles.slider} value={colorQuantity} onValueChange={setColorQuantity} minimumValue={0} maximumValue={10} step={1} />
+                    <Text>{colorQuantity}</Text>
+                </View>
+            )}
+
             <MainButton title="Submit Ticket" onPress={createTicket} />
+
+            <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={resetSelections}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+
+            </TouchableOpacity>
         </View>
     );
 };
@@ -141,6 +175,22 @@ const styles = StyleSheet.create({
       width: '80%',
       marginBottom: 20,
     },
+    sliderContainer: {
+        alignItems: "center",
+        marginVertical: 10,
+    },
+    cancelButton: {
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    cancelButtonText: {
+        color: 'white',
+        textAlign: "center",
+        fontSize: 16,
+    },
+
 });
 
 export default TicketCreationScreen;
