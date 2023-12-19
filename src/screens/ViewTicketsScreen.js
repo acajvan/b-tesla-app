@@ -20,6 +20,16 @@ const ViewTicketsScreen = () => {
         loadTickets();
     }, []);
 
+    const loadTickets = async () => {
+        const storedTickets = await AsyncStorage.getItem('tickets');
+        if (storedTickets) setTickets(JSON.parse(storedTickets));
+    }
+
+    const handleDeleteTicket = () => {
+        setModalVisible(false);
+        loadTickets();
+    }
+
 
     return (
         <View style={styles.container}>
@@ -38,9 +48,9 @@ const ViewTicketsScreen = () => {
                         setSelectedTicket(ticket);
                         setModalVisible(true);
                     }}>
-                        <Text>Bet Amount: {ticket.betAmount}</Text>
-                        <Text>Color: {ticket.color}</Text>
-                        <Text>Date: {new Date(ticket.dateCreated).toLocaleDateString()}</Text>
+                        <Text style={styles.textColorItem} >Bet Amount: {ticket.betAmount}</Text>
+                        <Text style={styles.textColorItem} >Color: {ticket.color}</Text>
+                        <Text style={styles.textColorItem} >Date: {new Date(ticket.dateCreated).toLocaleDateString()}</Text>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
@@ -51,7 +61,7 @@ const ViewTicketsScreen = () => {
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
                 }}>
-                <TicketDetailModal ticket={selectedTicket} onClose={() => setModalVisible(false)} />
+                <TicketDetailModal ticket={selectedTicket} onClose={() => setModalVisible(false)} onDelete={handleDeleteTicket} />
             </Modal>
         </View>
 
@@ -78,7 +88,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     ticketItem: {
-        backgroundColor: "#fff",
+        backgroundColor: "#97abff",
         padding: 15,
         marginVertical: 5,
         borderRadius: 10,
@@ -89,9 +99,11 @@ const styles = StyleSheet.create({
         elevation: 3,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
-
-    }
+        justifyContent: "space-between",
+    },
+    textColorItem: {
+      color: "white",
+    },
 });
 
 

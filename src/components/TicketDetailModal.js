@@ -1,8 +1,27 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-const TicketDetailModal = ({ ticket, onClose }) => {
+const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
     if (!ticket) return null;
+
+    const deleteTicket = async () => {
+        try {
+            const storedTickets = await AsyncStorage.getItem('tickets');
+            let tickets = storedTickets ? JSON.parse(storedTickets) : [];
+
+            tickets = tickets.filter((t) => t.id !== ticket.id);
+
+            await AsyncStorage.setItem('tickets', JSON.stringify(tickets));
+
+            onClose();
+            onDelete();
+        }
+        catch (error) {
+            console.error('Failed to delete the ticket:', error);
+        }
+    }
 
     return (
         <Modal
@@ -19,12 +38,19 @@ const TicketDetailModal = ({ ticket, onClose }) => {
                     <Text style={styles.modalInfo}>Quantity of Color: {ticket.colorQuantity}</Text>
                     <Text style={styles.modalInfo}>Date: {new Date(ticket.dateCreated).toLocaleDateString()}</Text>
                     {/* Include any other information you want to show */}
-                    <TouchableOpacity
-                        style={styles.buttonClose}
-                        onPress={onClose}
-                    >
-                        <Text style={styles.textStyle}>Close</Text>
-                    </TouchableOpacity>
+                    <View style={styles.actions}>
+                        <TouchableOpacity
+                            style={styles.buttonClose}
+                            onPress={onClose}
+                        >
+                            <Text style={styles.textStyle}>Close</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.actionButton}
+                            onPress={deleteTicket}>
+                            <Icon name="trash" size={26} color="#FF0000" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </Modal>
@@ -40,7 +66,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#97abff',
         borderRadius: 20,
         padding: 35,
         alignItems: 'center',
@@ -65,7 +91,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     buttonClose: {
-        backgroundColor: '#2196F3',
+        backgroundColor: '#8f0a6d',
         borderRadius: 20,
         padding: 10,
         elevation: 2,
@@ -74,6 +100,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    actions: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: 20,
+    },
+    actionButton: {
+        padding: 5,
+        marginLeft: 10
     },
 });
 
