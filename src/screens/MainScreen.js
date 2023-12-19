@@ -29,7 +29,7 @@ const MainScreen = () => {
             <Text style={styles.title}>Tesla Betting App</Text>
             <Text style={styles.date}>Today Date: {currentDateTime} </Text>
             <MainButton title="Create Ticket For Today" onPress={() => navigation.navigate('CreateTicket')} />
-            <MainButton title="View Your Ticket" onPress={() => {}} />
+            <MainButton title="View Your Ticket" onPress={() => navigation.navigate('ViewTicket')} />
             <MainButton title="Yesterday's Results" onPress={() => {}} />
 
 

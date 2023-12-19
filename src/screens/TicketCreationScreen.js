@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(14,107,168)',
     },
     glowText: {
-        textShadowColor: 'rgba(143,143,157,0.8)',
+        textShadowColor: 'rgba(159,159,180,0.8)',
         textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1,
     },

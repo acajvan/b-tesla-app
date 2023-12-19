@@ -2,7 +2,9 @@ import React from "react";
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './src/screens/MainScreen';
-import TicketCreationScreen from './src/screens/TicketCreationScreen'; // You'll create this next
+import TicketCreationScreen from './src/screens/TicketCreationScreen';
+import ViewTicketsScreen from "./src/screens/ViewTicketsScreen";
+import viewTicketsScreen from "./src/screens/ViewTicketsScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -19,8 +21,9 @@ const App = () => {
   return (
       <NavigationContainer theme={DarkTheme}>
         <Stack.Navigator screenOptions={{headerShown: false, animationEnabled: false,}} initialRouteName="Main">
-          <Stack.Screen name="Main" component={MainScreen} />
-          <Stack.Screen name="CreateTicket" component={TicketCreationScreen} />
+            <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen name="CreateTicket" component={TicketCreationScreen} />
+            <Stack.Screen name="ViewTicket" component={viewTicketsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
   );
