@@ -14,7 +14,15 @@ const ViewTicketsScreen = () => {
     useEffect(() => {
         const loadTickets = async () => {
             const storedTickets = await AsyncStorage.getItem('tickets');
-            if (storedTickets) setTickets(JSON.parse(storedTickets));
+            if (storedTickets)
+            {
+                let tickets = JSON.parse(storedTickets);
+                tickets.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+
+                setTickets(tickets);
+            }
+
+
         };
 
         loadTickets();
@@ -22,7 +30,13 @@ const ViewTicketsScreen = () => {
 
     const loadTickets = async () => {
         const storedTickets = await AsyncStorage.getItem('tickets');
-        if (storedTickets) setTickets(JSON.parse(storedTickets));
+        if (storedTickets)
+        {
+            let tickets = JSON.parse(storedTickets);
+            tickets.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+
+            setTickets(tickets);
+        }
     }
 
     const handleDeleteTicket = () => {
@@ -30,9 +44,22 @@ const ViewTicketsScreen = () => {
         loadTickets();
     }
 
+    const getColorPluralForm = (color, quantity) => {
+        const colorPlurals = {
+            neagra: 'negre',
+            alba: 'albe',
+            albastra: 'albastre',
+            gri: 'gri',
+            rosie: 'rosii',
+        };
+
+        return quantity > 1 ? colorPlurals[color] || color : color;
+    }
+
 
     return (
         <View style={styles.container}>
+            <ScrollView style={styles.scrollContainer}>
                 <TouchableOpacity
                     style={styles.homeButton}
                     onPress={() => navigation.navigate('Main')}>
@@ -41,18 +68,25 @@ const ViewTicketsScreen = () => {
 
 
 
-            <ScrollView style={styles.scrollContainer}>
-                <Text style={styles.header}>Your Tickets</Text>
+
+                <Text style={styles.header}>Biletele tale</Text>
                 {tickets.map((ticket, index) =>(
                     <TouchableOpacity key={index} style={styles.ticketItem} onPress={() => {
                         setSelectedTicket(ticket);
                         setModalVisible(true);
                     }}>
-                        <Text style={styles.textColorItem} >Bet Amount: {ticket.betAmount}</Text>
-                        <Text style={styles.textColorItem} >Color: {ticket.color}</Text>
-                        <Text style={styles.textColorItem} >Date: {new Date(ticket.dateCreated).toLocaleDateString()}</Text>
+                        <Text style={styles.textColorItem} >Nr. de masini: {ticket.betAmount}</Text>
+                        {ticket.color ?
+                            <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {ticket.color ? getColorPluralForm(ticket.color, ticket.colorQuantity) : null}</Text>
+                            : null
+                        }
+                        <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                     </TouchableOpacity>
                 ))}
+
+                <TouchableOpacity style={styles.footer}>
+                    <Text style={styles.textColorItem}>Bafta ;) </Text>
+                </TouchableOpacity>
             </ScrollView>
             <Modal
                 animationType="slide"
@@ -74,13 +108,13 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     scrollContainer: {
-        paddingTop: 80,
+        paddingTop: 40,
+        paddingBottom: 160
     },
     homeButton: {
-        position: "fixed",
-        top: 60,
-        left: 20,
-        zIndex: 10
+        marginVertical: 20,
+        alignSelf: "flex-start",
+        padding: 10
     },
     header: {
         fontSize: 22,
@@ -97,13 +131,19 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
     },
     textColorItem: {
-      color: "white",
+        color: "white",
+        fontSize: 20,
     },
+    footer: {
+        flex: 1,
+        padding: 10,
+        marginBottom: 50
+    }
 });
 
 

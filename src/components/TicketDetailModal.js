@@ -23,6 +23,18 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
         }
     }
 
+    const getColorPluralForm = (color, quantity) => {
+        const colorPlurals = {
+            neagra: 'negre',
+            alba: 'albe',
+            albastra: 'albastre',
+            gri: 'gri',
+            rosie: 'rosii',
+        };
+
+        return quantity > 1 ? colorPlurals[color] || color : color;
+    }
+
     return (
         <Modal
             animationType="slide"
@@ -32,12 +44,13 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Ticket Details</Text>
-                    <Text style={styles.modalInfo}>Amount Bet: ${ticket.betAmount}</Text>
-                    <Text style={styles.modalInfo}>Color: {ticket.color}</Text>
-                    <Text style={styles.modalInfo}>Quantity of Color: {ticket.colorQuantity}</Text>
-                    <Text style={styles.modalInfo}>Date: {new Date(ticket.dateCreated).toLocaleDateString()}</Text>
-                    {/* Include any other information you want to show */}
+                    <Text style={styles.modalText}>Detalii</Text>
+                    <Text style={styles.modalInfo}>Nr. de masini: {ticket.betAmount}</Text>
+                    {ticket.color ?
+                        <Text style={styles.modalInfo}>Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)} </Text>
+                        : null
+                    }
+                    <Text style={styles.modalInfo}>Date: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                     <View style={styles.actions}>
                         <TouchableOpacity
                             style={styles.buttonClose}
@@ -66,17 +79,17 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: '#97abff',
+        backgroundColor: '#7987c9',
         borderRadius: 20,
         padding: 35,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
-            width: 0,
-            height: 2,
+            width: 4,
+            height: 4,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        shadowOpacity: 0.70,
+        shadowRadius: 6,
         elevation: 5,
     },
     modalText: {
