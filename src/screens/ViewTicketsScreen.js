@@ -77,7 +77,7 @@ const ViewTicketsScreen = () => {
                     }}>
                         <Text style={styles.textColorItem} >Nr. de masini: {ticket.betAmount}</Text>
                         {ticket.color ?
-                            <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {ticket.color ? getColorPluralForm(ticket.color, ticket.colorQuantity) : null}</Text>
+                            <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
                             : null
                         }
                         <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>

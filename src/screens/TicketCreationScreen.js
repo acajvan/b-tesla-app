@@ -7,14 +7,14 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TicketCreationScreen = () => {
-    const [betAmount, setBetAmount] = useState(0);
+    const [betAmount, setBetAmount] = useState(1);
     const navigation = useNavigation();
     const [customColor, setCustomColor] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [colorQuantity, setColorQuantity] = useState(1);
     const [isColorSelected, setIsColorSelected] = useState(false);
     const resetSelections = () => {
-        setBetAmount(0);
+        setBetAmount(1);
         setSelectedColor('');
         setCustomColor('');
         setColorQuantity(1);
@@ -94,7 +94,7 @@ const TicketCreationScreen = () => {
                 style={styles.slider}
                 value={betAmount}
                 onValueChange={setBetAmount}
-                minimumValue={0}
+                minimumValue={1}
                 maximumValue={25}
                 step={1}
             />
