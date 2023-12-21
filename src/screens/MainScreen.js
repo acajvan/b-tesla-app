@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import MainButton from '../components/MainButton';
-
 import {useNavigation} from "@react-navigation/native";
+import {SvgFromUri} from "react-native-svg";
 
 const MainScreen = () => {
 
@@ -25,19 +25,13 @@ const MainScreen = () => {
 
     return (
         <View style={styles.container}>
-
-            <Text style={styles.title}>Tesla Betting App</Text>
-            <Text style={styles.date}>Today Date: {currentDateTime} </Text>
-            <MainButton title="Create Ticket For Today" onPress={() => navigation.navigate('CreateTicket')} />
-            <MainButton title="View Your Ticket" onPress={() => navigation.navigate('ViewTicket')} />
-            <MainButton title="Yesterday's Results" onPress={() => {}} />
-
-
+            <SvgFromUri uri={"https://www.svgrepo.com/show/342292/tesla.svg"} width={125} height={125} />
+            <Text style={styles.title}>Câte Tesla vedem azi?</Text>
+            <Text style={styles.date}>Astăzi: {currentDateTime} </Text>
+            <MainButton title="Crează biletul" onPress={() => navigation.navigate('CreateTicket')} />
+            <MainButton title="Vezi biletele tale" onPress={() => navigation.navigate('ViewTicket')} />
         </View>
-
-
-);
-};
+);};
 
 const styles = StyleSheet.create({
     container: {
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
     credits: {
         fontSize: 10,
         alignItems: "flex-end",
-    }
+    },
 });
 
 export default MainScreen;

@@ -25,11 +25,11 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
 
     const getColorPluralForm = (color, quantity) => {
         const colorPlurals = {
-            neagra: 'negre',
-            alba: 'albe',
-            albastra: 'albastre',
+            neagră: 'negre',
+            albă: 'albe',
+            albastră: 'albastre',
             gri: 'gri',
-            rosie: 'rosii',
+            roșie: 'roșii',
         };
 
         return quantity > 1 ? colorPlurals[color] || color : color;
@@ -45,7 +45,7 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>Detalii</Text>
-                    <Text style={styles.modalInfo}>Nr. de masini: {ticket.betAmount}</Text>
+                    <Text style={styles.modalInfo}>Nr. de mașini: {ticket.betAmount}</Text>
                     {ticket.color ?
                         <Text style={styles.modalInfo}>Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)} </Text>
                         : null
@@ -56,7 +56,7 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
                             style={styles.buttonClose}
                             onPress={onClose}
                         >
-                            <Text style={styles.textStyle}>Close</Text>
+                            <Text style={styles.textStyle}>Închide</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.actionButton}

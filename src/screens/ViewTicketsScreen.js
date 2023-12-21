@@ -18,11 +18,8 @@ const ViewTicketsScreen = () => {
             {
                 let tickets = JSON.parse(storedTickets);
                 tickets.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
-
                 setTickets(tickets);
             }
-
-
         };
 
         loadTickets();
@@ -34,7 +31,6 @@ const ViewTicketsScreen = () => {
         {
             let tickets = JSON.parse(storedTickets);
             tickets.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
-
             setTickets(tickets);
         }
     }
@@ -46,11 +42,11 @@ const ViewTicketsScreen = () => {
 
     const getColorPluralForm = (color, quantity) => {
         const colorPlurals = {
-            neagra: 'negre',
-            alba: 'albe',
-            albastra: 'albastre',
+            neagră: 'negre',
+            albă: 'albe',
+            albastră: 'albastre',
             gri: 'gri',
-            rosie: 'rosii',
+            roșie: 'roșii',
         };
 
         return quantity > 1 ? colorPlurals[color] || color : color;
@@ -65,17 +61,13 @@ const ViewTicketsScreen = () => {
                     onPress={() => navigation.navigate('Main')}>
                     <Icon name="home" size={36} color="#8f0a6d" />
                 </TouchableOpacity>
-
-
-
-
                 <Text style={styles.header}>Biletele tale</Text>
                 {tickets.map((ticket, index) =>(
                     <TouchableOpacity key={index} style={styles.ticketItem} onPress={() => {
                         setSelectedTicket(ticket);
                         setModalVisible(true);
                     }}>
-                        <Text style={styles.textColorItem} >Nr. de masini: {ticket.betAmount}</Text>
+                        <Text style={styles.textColorItem} >Nr. de mașini: {ticket.betAmount}</Text>
                         {ticket.color ?
                             <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
                             : null
@@ -85,7 +77,7 @@ const ViewTicketsScreen = () => {
                 ))}
 
                 <TouchableOpacity style={styles.footer}>
-                    <Text style={styles.textColorItem}>Bafta ;) </Text>
+                    <Text style={styles.textColorItem}>Baftă ;) </Text>
                 </TouchableOpacity>
             </ScrollView>
             <Modal
@@ -98,7 +90,6 @@ const ViewTicketsScreen = () => {
                 <TicketDetailModal ticket={selectedTicket} onClose={() => setModalVisible(false)} onDelete={handleDeleteTicket} />
             </Modal>
         </View>
-
     )
 }
 

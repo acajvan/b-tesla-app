@@ -47,7 +47,7 @@ const TicketCreationScreen = () => {
             setBetAmount(0);
             setSelectedColor('');
             setCustomColor('');
-            Alert.alert('Ticket Created', 'Your ticket has been created successfully! ');
+            Alert.alert('Bilet creat', 'Biletul tău a fost înregistrat cu succes!');
         }
         catch (error) {
             Alert.alert('Error', 'There was an error submitting the ticket');
@@ -68,11 +68,11 @@ const TicketCreationScreen = () => {
 
     const getColorPluralForm = (color, quantity) => {
         const colorPlurals = {
-            neagra: 'negre',
-            alba: 'albe',
-            albastra: 'albastre',
+            neagră: 'negre',
+            albă: 'albe',
+            albastră: 'albastre',
             gri: 'gri',
-            rosie: 'rosii',
+            roșie: 'roșii',
         };
 
         return quantity > 1 ? colorPlurals[color] || color : color;
@@ -89,7 +89,7 @@ const TicketCreationScreen = () => {
 
             <Text style={styles.header}>Biletul Zilei</Text>
 
-            <Text style={styles.label}>Numarul de Tesla vazute azi: {betAmount}</Text>
+            <Text style={styles.label}>Numărul de Tesla văzute azi: {betAmount}</Text>
             <Slider
                 style={styles.slider}
                 value={betAmount}
@@ -103,11 +103,11 @@ const TicketCreationScreen = () => {
             {/* Add additional betting options here */}
 
             <View style={styles.colorContainer}>
-                <ColorButton title="Alba" color="White" plural="albe" />
-                <ColorButton title="Neagra" color="Black" plural="negre" />
+                <ColorButton title="Albă" color="White" plural="albe" />
+                <ColorButton title="Neagră" color="Black" plural="negre" />
                 <ColorButton title="Gri" color="Grey" plural="gri" />
-                <ColorButton title="Albastra" color="Blue" plural="albastre" />
-                <ColorButton title="Rosie" color="Red" plural="rosii" />
+                <ColorButton title="Albastră" color="Blue" plural="albastre" />
+                <ColorButton title="Roșie" color="Red" plural="roșii" />
             </View>
 
             <TextInput
@@ -123,17 +123,17 @@ const TicketCreationScreen = () => {
 
             {isColorSelected && (
                 <View style={styles.sliderContainer}>
-                    <Text style={styles.label}>Dintre care macar {colorQuantity} {colorQuantity > 1 ? "sunt" : "este" } {getColorPluralForm(selectedColor, colorQuantity)} </Text>
+                    <Text style={styles.label}>Dintre care măcar {colorQuantity} {colorQuantity > 1 ? "sunt" : "este" } {getColorPluralForm(selectedColor, colorQuantity)} </Text>
                     <Slider style={styles.slider} value={colorQuantity} onValueChange={setColorQuantity} minimumValue={1} maximumValue={10} step={1} />
                 </View>
             )}
 
-            <MainButton title="Submit Ticket" onPress={createTicket} />
+            <MainButton title="Adaugă biletul" onPress={createTicket} />
 
             <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={resetSelections}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={styles.cancelButtonText}>Anulează</Text>
 
             </TouchableOpacity>
         </View>
