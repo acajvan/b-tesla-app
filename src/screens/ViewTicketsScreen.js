@@ -4,6 +4,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TicketDetailModal from "../components/TicketDetailModal";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 const ViewTicketsScreen = () => {
     const navigation = useNavigation();
@@ -54,42 +56,45 @@ const ViewTicketsScreen = () => {
 
 
     return (
-        <View style={styles.container}>
-            <ScrollView style={styles.scrollContainer}>
-                <TouchableOpacity
-                    style={styles.homeButton}
-                    onPress={() => navigation.navigate('Main')}>
-                    <Icon name="home" size={36} color="#8f0a6d" />
-                </TouchableOpacity>
-                <Text style={styles.header}>Biletele tale</Text>
-                {tickets.map((ticket, index) =>(
-                    <TouchableOpacity key={index} style={styles.ticketItem} onPress={() => {
-                        setSelectedTicket(ticket);
-                        setModalVisible(true);
-                    }}>
-                        <Text style={styles.textColorItem} >Nr. de mașini: {ticket.betAmount}</Text>
-                        {ticket.color ?
-                            <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
-                            : null
-                        }
-                        <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
+        <SafeAreaView style={styles.safeArea}>
+            <StatusBar style="light" backgroundColor="transparent" translucent={true} />
+            <View style={styles.container}>
+                <ScrollView style={styles.scrollContainer}>
+                    <TouchableOpacity
+                        style={styles.homeButton}
+                        onPress={() => navigation.navigate('Main')}>
+                        <Icon name="home" size={36} color="#8f0a6d" />
                     </TouchableOpacity>
-                ))}
+                    <Text style={styles.header}>Biletele tale</Text>
+                    {tickets.map((ticket, index) =>(
+                        <TouchableOpacity key={index} style={styles.ticketItem} onPress={() => {
+                            setSelectedTicket(ticket);
+                            setModalVisible(true);
+                        }}>
+                            <Text style={styles.textColorItem} >Nr. de mașini: {ticket.betAmount}</Text>
+                            {ticket.color ?
+                                <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
+                                : null
+                            }
+                            <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
+                        </TouchableOpacity>
+                    ))}
 
-                <TouchableOpacity style={styles.footer}>
-                    <Text style={styles.textColorItem}>Baftă ;) </Text>
-                </TouchableOpacity>
-            </ScrollView>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}>
-                <TicketDetailModal ticket={selectedTicket} onClose={() => setModalVisible(false)} onDelete={handleDeleteTicket} />
-            </Modal>
-        </View>
+                    <TouchableOpacity style={styles.footer}>
+                        <Text style={styles.textColorItem}>Baftă ;) </Text>
+                    </TouchableOpacity>
+                </ScrollView>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}>
+                    <TicketDetailModal ticket={selectedTicket} onClose={() => setModalVisible(false)} onDelete={handleDeleteTicket} />
+                </Modal>
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     scrollContainer: {
-        paddingTop: 40,
+        paddingTop: 20,
         paddingBottom: 160
     },
     homeButton: {
@@ -134,7 +139,11 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         marginBottom: 50
-    }
+    },
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#101d4b',
+    },
 });
 
 

@@ -3,6 +3,8 @@ import {View, Text, StyleSheet} from 'react-native';
 import MainButton from '../components/MainButton';
 import {useNavigation} from "@react-navigation/native";
 import {SvgFromUri} from "react-native-svg";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 const MainScreen = () => {
 
@@ -24,6 +26,8 @@ const MainScreen = () => {
     }, []);
 
     return (
+        <SafeAreaView style={styles.safeArea} >
+            <StatusBar style="light" backgroundColor="transparent" translucent={true} />
         <View style={styles.container}>
             <SvgFromUri uri={"https://www.svgrepo.com/show/342292/tesla.svg"} width={125} height={125} />
             <Text style={styles.title}>Câte Tesla vedem azi?</Text>
@@ -31,6 +35,7 @@ const MainScreen = () => {
             <MainButton title="Crează biletul" onPress={() => navigation.navigate('CreateTicket')} />
             <MainButton title="Vezi biletele tale" onPress={() => navigation.navigate('ViewTicket')} />
         </View>
+        </SafeAreaView>
 );};
 
 const styles = StyleSheet.create({
@@ -61,6 +66,10 @@ const styles = StyleSheet.create({
     credits: {
         fontSize: 10,
         alignItems: "flex-end",
+    },
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#101d4b',
     },
 });
 

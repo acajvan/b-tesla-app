@@ -5,6 +5,8 @@ import Slider from "@react-native-community/slider/src/Slider";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 const TicketCreationScreen = () => {
     const [betAmount, setBetAmount] = useState(1);
@@ -44,7 +46,7 @@ const TicketCreationScreen = () => {
             await AsyncStorage.setItem('tickets', JSON.stringify(updatedTickets));
 
             //reset fields
-            setBetAmount(0);
+            setBetAmount(1);
             setSelectedColor('');
             setCustomColor('');
             Alert.alert('Bilet creat', 'Biletul tău a fost înregistrat cu succes!');
@@ -80,6 +82,8 @@ const TicketCreationScreen = () => {
 
 
     return (
+        <SafeAreaView style={styles.safeArea}>
+            <StatusBar style="light" backgroundColor="transparent" translucent={true} />
         <View style={styles.container}>
             <TouchableOpacity
                 style={styles.homeButton}
@@ -137,6 +141,7 @@ const TicketCreationScreen = () => {
 
             </TouchableOpacity>
         </View>
+        </SafeAreaView>
     );
 };
 
@@ -163,7 +168,7 @@ const styles = StyleSheet.create({
     },
     homeButton: {
         position: "absolute",
-        top: 60,
+        top: 40,
         left: 20,
     },
     colorButton: {
@@ -210,6 +215,10 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: "center",
         fontSize: 16,
+    },
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#101d4b',
     },
 
 });
