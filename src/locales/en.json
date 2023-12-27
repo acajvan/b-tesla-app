@@ -1,0 +1,9 @@
+{
+  "welcome": "Welcome",
+  "description": "This is an app description in English.",
+  "loc.mainscreen.title": "How many Tesla we see today?",
+  "loc.mainscreen.date": "Today:",
+  "loc.mainscreen.createticket": "Create ticket",
+  "loc.mainscreen.seetickets": "See your tickets"
+
+}
