@@ -12,6 +12,7 @@ export const LanguageProvider = ({ children }) => {
         const newLanguage = language === 'en' ? 'ro' : 'en';
         setLanguage(newLanguage);
         i18n.changeLanguage(newLanguage);
+        setLanguage(newLanguage);
     };
 
     return (

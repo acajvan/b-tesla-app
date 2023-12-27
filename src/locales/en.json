@@ -4,6 +4,22 @@
   "loc.mainscreen.title": "How many Tesla we see today?",
   "loc.mainscreen.date": "Today:",
   "loc.mainscreen.createticket": "Create ticket",
-  "loc.mainscreen.seetickets": "See your tickets"
-
+  "loc.mainscreen.seetickets": "See your tickets",
+  "loc.tcs.title": "Today's Ticket",
+  "loc.tcs.label": "The amount of Tesla's seen today:",
+  "loc.tcs.white": "white",
+  "loc.tcs.white_plural": "white",
+  "loc.tcs.black": "black",
+  "loc.tcs.black_plural": "black",
+  "loc.tcs.grey": "grey",
+  "loc.tcs.grey_plural": "grey",
+  "loc.tcs.blue": "blue",
+  "loc.tcs.blue_plural": "blue",
+  "loc.tcs.red": "red",
+  "loc.tcs.red_plural": "red",
+  "loc.tcs.placeholder": "Another color?",
+  "loc.tcs.cancel": "Cancel",
+  "loc.tcs.is": "is ",
+  "loc.tcs.are": "are ",
+  "loc.tcs.atleast": "From which at least"
 }

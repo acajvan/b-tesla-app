@@ -13,7 +13,6 @@ const MainScreen = () => {
 
     const [currentDateTime, setCurrentDateTime] = useState('');
     const navigation = useNavigation();
-    const [isEnglish, setIsEnglish] = useState(true);
     const { language, toggleLanguage } = useLanguage();
 
     useEffect(() => {
@@ -39,7 +38,7 @@ const MainScreen = () => {
         <View style={styles.container}>
             <View style={styles.languageSwitcher}>
                 <Switch trackColor={{ false: "#767577", true: "#81b0ff"}}
-                        thumbColor={isEnglish ? "#f5dd4b" : "#f4f3f4"}
+                        thumbColor={language === 'en' ? "#f5dd4b" : "#f4f3f4"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={toggleLanguage}
                         value={language === 'en'}

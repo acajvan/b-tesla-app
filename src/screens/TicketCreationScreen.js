@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { useTranslation } from "react-i18next";
 
 const TicketCreationScreen = () => {
     const [betAmount, setBetAmount] = useState(1);
@@ -15,6 +16,7 @@ const TicketCreationScreen = () => {
     const [selectedColor, setSelectedColor] = useState('');
     const [colorQuantity, setColorQuantity] = useState(1);
     const [isColorSelected, setIsColorSelected] = useState(false);
+    const { t } = useTranslation();
     const resetSelections = () => {
         setBetAmount(1);
         setSelectedColor('');
@@ -57,28 +59,23 @@ const TicketCreationScreen = () => {
 
     };
 
+    const capitalize = (text) => {
+        if(!text) return '';
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
     const ColorButton = ({ title, color }) =>
         (
+
             <TouchableOpacity
-                style={[styles.colorButton, {background: 'blue', opacity: isColorSelected && selectedColor !== title.toLowerCase() ? 0.8 : 1 }]}
-                onPress={() => {setSelectedColor(title.toLowerCase())
+                style={[styles.colorButton, {background: "blue", opacity: isColorSelected && selectedColor !== color.toLowerCase() ? 0.8 : 1}]}
+                onPress={() => {
+                    setSelectedColor(color.toLowerCase());
                     setColorQuantity(1);
                 }}>
-                <Text style={[styles.glowText, {color: color.toLowerCase() }]}>{title}</Text>
+                <Text style={[styles.glowText, {color: color.toLowerCase()}]}>{capitalize(t(title))}</Text>
             </TouchableOpacity>
         )
-
-    const getColorPluralForm = (color, quantity) => {
-        const colorPlurals = {
-            neagră: 'negre',
-            albă: 'albe',
-            albastră: 'albastre',
-            gri: 'gri',
-            roșie: 'roșii',
-        };
-
-        return quantity > 1 ? colorPlurals[color] || color : color;
-    }
 
 
     return (
@@ -91,9 +88,9 @@ const TicketCreationScreen = () => {
                 <Icon name="home" size={36} color="#8f0a6d" />
             </TouchableOpacity>
 
-            <Text style={styles.header}>Biletul Zilei</Text>
+            <Text style={styles.header}>{t('loc.tcs.title')}</Text>
 
-            <Text style={styles.label}>Numărul de Tesla văzute azi: {betAmount}</Text>
+            <Text style={styles.label}>{t('loc.tcs.label')} {betAmount}</Text>
             <Slider
                 style={styles.slider}
                 value={betAmount}
@@ -103,15 +100,12 @@ const TicketCreationScreen = () => {
                 step={1}
             />
 
-
-            {/* Add additional betting options here */}
-
             <View style={styles.colorContainer}>
-                <ColorButton title="Albă" color="White" plural="albe" />
-                <ColorButton title="Neagră" color="Black" plural="negre" />
-                <ColorButton title="Gri" color="Grey" plural="gri" />
-                <ColorButton title="Albastră" color="Blue" plural="albastre" />
-                <ColorButton title="Roșie" color="Red" plural="roșii" />
+                <ColorButton title="loc.tcs.white" color="White" />
+                <ColorButton title="loc.tcs.black" color="Black" />
+                <ColorButton title="loc.tcs.grey" color="Grey" />
+                <ColorButton title="loc.tcs.blue" color="Blue" />
+                <ColorButton title="loc.tcs.red" color="Red" />
             </View>
 
             <TextInput
@@ -121,23 +115,25 @@ const TicketCreationScreen = () => {
                     setColorQuantity(0); //resting the quantity color
                 }}
                 value={customColor}
-                placeholder="Alta culoare?"
+                placeholder={t("loc.tcs.placeholder")}
                 placeholderTextColor={"white"}
             />
 
             {isColorSelected && (
                 <View style={styles.sliderContainer}>
-                    <Text style={styles.label}>Dintre care măcar {colorQuantity} {colorQuantity > 1 ? "sunt" : "este" } {getColorPluralForm(selectedColor, colorQuantity)} </Text>
+                    <Text style={styles.label}>{t("loc.tcs.atleast")} {colorQuantity} {colorQuantity > 1 ? t('loc.tcs.are') : t('loc.tcs.is')}
+                        { colorQuantity > 1 ? t(`loc.tcs.${selectedColor}_plural`) : t(`loc.tcs.${selectedColor}`)}
+                    </Text>
                     <Slider style={styles.slider} value={colorQuantity} onValueChange={setColorQuantity} minimumValue={1} maximumValue={10} step={1} />
                 </View>
             )}
 
-            <MainButton title="Adaugă biletul" onPress={createTicket} />
+            <MainButton title={t("loc.mainscreen.createticket")} onPress={createTicket} />
 
             <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={resetSelections}>
-                <Text style={styles.cancelButtonText}>Anulează</Text>
+                <Text style={styles.cancelButtonText}>{t("loc.tcs.cancel")}</Text>
 
             </TouchableOpacity>
         </View>

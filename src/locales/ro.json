@@ -4,5 +4,22 @@
   "loc.mainscreen.title": "Câte Tesla vedem azi?",
   "loc.mainscreen.date": "Astăzi:",
   "loc.mainscreen.createticket": "Crează biletul",
-  "loc.mainscreen.seetickets": "Vezi biletele tale"
+  "loc.mainscreen.seetickets": "Vezi biletele tale",
+  "loc.tcs.title": "Biletul Zilei",
+  "loc.tcs.label": "Numărul de Tesla văzute azi:",
+  "loc.tcs.white": "albă",
+  "loc.tcs.white_plural": "albe",
+  "loc.tcs.black": "neagră",
+  "loc.tcs.black_plural": "negre",
+  "loc.tcs.grey": "gri",
+  "loc.tcs.grey_plural": "gri",
+  "loc.tcs.blue": "albastră",
+  "loc.tcs.blue_plural": "albastre",
+  "loc.tcs.red": "roșie",
+  "loc.tcs.red_plural": "roșii",
+  "loc.tcs.placeholder": "Altă culoare?",
+  "loc.tcs.cancel": "Anulează",
+  "loc.tcs.is": "este ",
+  "loc.tcs.are": "sunt ",
+  "loc.tcs.atleast": "Dintre care măcar"
 }
