@@ -4,14 +4,17 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TicketDetailModal from "../components/TicketDetailModal";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {StatusBar} from "expo-status-bar";
+import {useTranslation} from "react-i18next";
+import i18n from "../locales/i18n";
 
 const ViewTicketsScreen = () => {
     const navigation = useNavigation();
     const [tickets, setTickets] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const loadTickets = async () => {
@@ -43,15 +46,17 @@ const ViewTicketsScreen = () => {
     }
 
     const getColorPluralForm = (color, quantity) => {
-        const colorPlurals = {
-            neagră: 'negre',
-            albă: 'albe',
-            albastră: 'albastre',
-            gri: 'gri',
-            roșie: 'roșii',
-        };
+        if (quantity > 1){
+            return t(`loc.tcs.${color}_plural`)
+        }
+        else {
+            return t(`loc.tcs.${color}`)
+        }
 
-        return quantity > 1 ? colorPlurals[color] || color : color;
+    }
+
+    const getLocale = () => {
+        return i18n.language;
     }
 
 
@@ -65,18 +70,18 @@ const ViewTicketsScreen = () => {
                         onPress={() => navigation.navigate('Main')}>
                         <Icon name="home" size={36} color="#8f0a6d" />
                     </TouchableOpacity>
-                    <Text style={styles.header}>Biletele tale</Text>
+                    <Text style={styles.header}>{t("loc.vts.yourtickets")}</Text>
                     {tickets.map((ticket, index) =>(
                         <TouchableOpacity key={index} style={styles.ticketItem} onPress={() => {
                             setSelectedTicket(ticket);
                             setModalVisible(true);
                         }}>
-                            <Text style={styles.textColorItem} >Nr. de mașini: {ticket.betAmount}</Text>
+                            <Text style={styles.textColorItem} >{t("loc.vts.caramount")} {ticket.betAmount}</Text>
                             {ticket.color ?
-                                <Text style={styles.textColorItem} >Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
+                                <Text style={styles.textColorItem} >{t("loc.vts.atleast")} {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
                                 : null
                             }
-                            <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
+                            <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                         </TouchableOpacity>
                     ))}
 

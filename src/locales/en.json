@@ -21,5 +21,8 @@
   "loc.tcs.cancel": "Cancel",
   "loc.tcs.is": "is ",
   "loc.tcs.are": "are ",
-  "loc.tcs.atleast": "From which at least"
+  "loc.tcs.atleast": "From which at least",
+  "loc.vts.yourtickets": "Your tickets",
+  "loc.vts.caramount": "Amount of cars:",
+  "loc.vts.atleast": "At least:"
 }

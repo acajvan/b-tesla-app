@@ -37,8 +37,8 @@ const MainScreen = () => {
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
         <View style={styles.container}>
             <View style={styles.languageSwitcher}>
-                <Switch trackColor={{ false: "#767577", true: "#81b0ff"}}
-                        thumbColor={language === 'en' ? "#f5dd4b" : "#f4f3f4"}
+                <Switch trackColor={{ false: "#767577", true: "rgba(59,29,255,0.35)"}}
+                        thumbColor={language === 'en' ? "#8f0a6d" : "#f4f3f4"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={toggleLanguage}
                         value={language === 'en'}

@@ -21,5 +21,8 @@
   "loc.tcs.cancel": "Anulează",
   "loc.tcs.is": "este ",
   "loc.tcs.are": "sunt ",
-  "loc.tcs.atleast": "Dintre care măcar"
+  "loc.tcs.atleast": "Dintre care măcar",
+  "loc.vts.yourtickets": "Biletele tale",
+  "loc.vts.caramount": "Nr. de mașini:",
+  "loc.vts.atleast": "Dintre care:"
 }
