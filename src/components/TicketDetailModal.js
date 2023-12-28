@@ -2,6 +2,8 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {useTranslation} from "react-i18next";
+import i18n from "../locales/i18n";
 
 const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
     if (!ticket) return null;
@@ -23,16 +25,19 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
         }
     }
 
-    const getColorPluralForm = (color, quantity) => {
-        const colorPlurals = {
-            neagră: 'negre',
-            albă: 'albe',
-            albastră: 'albastre',
-            gri: 'gri',
-            roșie: 'roșii',
-        };
+    const { t } = useTranslation();
 
-        return quantity > 1 ? colorPlurals[color] || color : color;
+    const getColorPluralForm = (color, quantity) => {
+        if (quantity > 1){
+            return t(`loc.tcs.${color}_plural`)
+        }
+        else {
+            return t(`loc.tcs.${color}`)
+        }
+    }
+
+    const getLocale = () => {
+        return i18n.language;
     }
 
     return (
@@ -44,19 +49,19 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Detalii</Text>
-                    <Text style={styles.modalInfo}>Nr. de mașini: {ticket.betAmount}</Text>
+                    <Text style={styles.modalText}>{t("loc.tdm.details")}</Text>
+                    <Text style={styles.modalInfo}>{t("loc.vts.caramount")} {ticket.betAmount}</Text>
                     {ticket.color ?
-                        <Text style={styles.modalInfo}>Dintre care: {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)} </Text>
+                        <Text style={styles.modalInfo}>{t("loc.vts.atleast")} {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)} </Text>
                         : null
                     }
-                    <Text style={styles.modalInfo}>Date: {new Date(ticket.dateCreated).toLocaleDateString('ro-RO', { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
+                    <Text style={styles.modalInfo}>{t("loc.vts.date")}: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                     <View style={styles.actions}>
                         <TouchableOpacity
                             style={styles.buttonClose}
                             onPress={onClose}
                         >
-                            <Text style={styles.textStyle}>Închide</Text>
+                            <Text style={styles.textStyle}>{t("loc.tdm.close")}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.actionButton}

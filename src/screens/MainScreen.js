@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Switch} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MainButton from '../components/MainButton';
 import {useNavigation} from "@react-navigation/native";
 import {SvgFromUri} from "react-native-svg";
@@ -14,6 +14,7 @@ const MainScreen = () => {
     const [currentDateTime, setCurrentDateTime] = useState('');
     const navigation = useNavigation();
     const { language, toggleLanguage } = useLanguage();
+    const isEnglish = language === "en";
 
     useEffect(() => {
         const updateDateTime = () =>
@@ -30,19 +31,25 @@ const MainScreen = () => {
         return () => clearInterval(intervalID);
     }, [i18n.language]);
 
-    const { t } = useTranslation()
+    const { t } = useTranslation();
+
+    const handleSetLanguage = (lang) => {
+        toggleLanguage(lang);
+    }
 
     return (
         <SafeAreaView style={styles.safeArea} >
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
         <View style={styles.container}>
             <View style={styles.languageSwitcher}>
-                <Switch trackColor={{ false: "#767577", true: "rgba(59,29,255,0.35)"}}
-                        thumbColor={language === 'en' ? "#8f0a6d" : "#f4f3f4"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={toggleLanguage}
-                        value={language === 'en'}
-                />
+               <TouchableOpacity
+                    style={[styles.languageButton, isEnglish ? styles.activeLanguage : {}]}
+                    onPress={() => handleSetLanguage('en')}><Text style={styles.languageText}>EN</Text>
+               </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.languageButton, !isEnglish ? styles.activeLanguage : {}]}
+                    onPress={() => handleSetLanguage('ro')}><Text style={styles.languageText}>RO</Text>
+                </TouchableOpacity>
             </View>
             <SvgFromUri uri={"https://www.svgrepo.com/show/342292/tesla.svg"} width={125} height={125} />
             <Text style={styles.title}>{t('loc.mainscreen.title')}</Text>
@@ -89,8 +96,25 @@ const styles = StyleSheet.create({
     languageSwitcher: {
         position: 'absolute',
         top: 40,
-        right: 20
+        right: 20,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 6
     },
+    languageButton: {
+        backgroundColor: "#080f26",
+        padding: 8,
+        marginHorizontal: 3,
+        borderRadius: 2
+    },
+    activeLanguage: {
+        backgroundColor: "#8f0a6d"
+    },
+    languageText: {
+        color: "white",
+        fontWeight: "bold"
+    }
 });
 
 export default MainScreen;

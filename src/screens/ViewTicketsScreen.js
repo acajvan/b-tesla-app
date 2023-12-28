@@ -81,12 +81,12 @@ const ViewTicketsScreen = () => {
                                 <Text style={styles.textColorItem} >{t("loc.vts.atleast")} {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
                                 : null
                             }
-                            <Text style={styles.textColorItem} >Data: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
+                            <Text style={styles.textColorItem}>{t("loc.vts.date")}: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                         </TouchableOpacity>
                     ))}
 
                     <TouchableOpacity style={styles.footer}>
-                        <Text style={styles.textColorItem}>Baftă ;) </Text>
+                        <Text style={styles.textColorItem}>{t("loc.vts.goodluck")} ;) </Text>
                     </TouchableOpacity>
                 </ScrollView>
                 <Modal

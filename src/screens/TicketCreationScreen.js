@@ -51,7 +51,7 @@ const TicketCreationScreen = () => {
             setBetAmount(1);
             setSelectedColor('');
             setCustomColor('');
-            Alert.alert('Bilet creat', 'Biletul tău a fost înregistrat cu succes!');
+            Alert.alert(t("loc.alert.success.title"), t("loc.alert.success.body"));
         }
         catch (error) {
             Alert.alert('Error', 'There was an error submitting the ticket');
