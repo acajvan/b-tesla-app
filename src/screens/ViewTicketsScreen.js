@@ -77,10 +77,11 @@ const ViewTicketsScreen = () => {
                             setModalVisible(true);
                         }}>
                             <Text style={styles.textColorItem} >{t("loc.vts.caramount")} {ticket.betAmount}</Text>
-                            {ticket.color ?
-                                <Text style={styles.textColorItem} >{t("loc.vts.atleast")} {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)}</Text>
-                                : null
-                            }
+                            {ticket.colors && ticket.colors.map((colorInfo, colorIndex) => (
+                                <Text key={colorIndex} style={styles.textColorItem}>
+                                    {t("loc.vts.atleast")} {colorInfo.quantity} {getColorPluralForm(colorInfo.color, colorInfo.quantity)}
+                                </Text>
+                            ))}
                             <Text style={styles.textColorItem}>{t("loc.vts.date")}: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                         </TouchableOpacity>
                     ))}

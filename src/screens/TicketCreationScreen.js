@@ -13,6 +13,7 @@ const TicketCreationScreen = () => {
     const [betAmount, setBetAmount] = useState(1);
     const navigation = useNavigation();
     const [customColor, setCustomColor] = useState('');
+    const [colorSelections, setColorSelections] = useState([]);
     const [selectedColor, setSelectedColor] = useState('');
     const [colorQuantity, setColorQuantity] = useState(1);
     const [isColorSelected, setIsColorSelected] = useState(false);
@@ -21,7 +22,7 @@ const TicketCreationScreen = () => {
         setBetAmount(1);
         setSelectedColor('');
         setCustomColor('');
-        setColorQuantity(1);
+        setColorSelections([]);
     }
 
 
@@ -33,8 +34,7 @@ const TicketCreationScreen = () => {
         const newTicket = {
             id: Date.now(),
             betAmount,
-            color: customColor || selectedColor,
-            colorQuantity,
+            colors: colorSelections,
             dateCreated: new Date().toISOString(),
         };
 
@@ -51,6 +51,7 @@ const TicketCreationScreen = () => {
             setBetAmount(1);
             setSelectedColor('');
             setCustomColor('');
+            setColorSelections([]);
             Alert.alert(t("loc.alert.success.title"), t("loc.alert.success.body"));
         }
         catch (error) {
@@ -64,18 +65,37 @@ const TicketCreationScreen = () => {
         return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
-    const ColorButton = ({ title, color }) =>
-        (
+    const ColorButton = ({ title, color }) => {
 
-            <TouchableOpacity
-                style={[styles.colorButton, {background: "blue", opacity: isColorSelected && selectedColor !== color.toLowerCase() ? 0.8 : 1}]}
-                onPress={() => {
-                    setSelectedColor(color.toLowerCase());
-                    setColorQuantity(1);
-                }}>
-                <Text style={[styles.glowText, {color: color.toLowerCase()}]}>{capitalize(t(title))}</Text>
-            </TouchableOpacity>
+        const {t} = useTranslation();
+
+        const handleColorPress = () => {
+            const colorName = color.toLowerCase();
+            const existingColor = colorSelections.find(sel => sel.color === colorName);
+
+            if (existingColor) {
+                setColorSelections(colorSelections.map(sel =>
+                    sel.color === colorName ? { ...sel, quantity: sel.quantity + 1 } : sel
+                ));
+            } else {
+                setColorSelections([...colorSelections, { color: colorName, quantity: 1}])
+            }
+        };
+
+
+
+
+        return(
+        <TouchableOpacity
+            style={[styles.colorButton, {
+                background: "blue",
+                opacity: isColorSelected && selectedColor !== color.toLowerCase() ? 0.8 : 1
+            }]}
+            onPress={handleColorPress}>
+            <Text style={[styles.glowText, {color: color.toLowerCase()}]}>{capitalize(t(title))}</Text>
+        </TouchableOpacity>
         )
+    }
 
 
     return (
@@ -119,14 +139,16 @@ const TicketCreationScreen = () => {
                 placeholderTextColor={"white"}
             />
 
-            {isColorSelected && (
-                <View style={styles.sliderContainer}>
-                    <Text style={styles.label}>{t("loc.tcs.atleast")} {colorQuantity} {colorQuantity > 1 ? t('loc.tcs.are') : t('loc.tcs.is')}
-                        { colorQuantity > 1 ? t(`loc.tcs.${selectedColor}_plural`) : t(`loc.tcs.${selectedColor}`)}
-                    </Text>
-                    <Slider style={styles.slider} value={colorQuantity} onValueChange={setColorQuantity} minimumValue={1} maximumValue={10} step={1} />
+            {colorSelections.length > 0 && (
+                <View style={styles.colorSelectionsContainer}>
+                    {colorSelections.map((selection, index) => (
+                        <Text key={index} style={styles.colorSelectionText}>
+                            {`${selection.quantity} ${t(`loc.tcs.${selection.color}${selection.quantity > 1 ? '_plural' : ''}`, { count: selection.quantity })}`}
+                        </Text>
+                    ))}
                 </View>
             )}
+
 
             <MainButton title={t("loc.mainscreen.createticket")} onPress={createTicket} />
 
@@ -216,6 +238,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#101d4b',
     },
+    colorSelectionsContainer: {
+        margin: 10,
+    },
+    colorSelectionText: {
+        color: "white"
+    }
 
 });
 
