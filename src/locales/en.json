@@ -30,5 +30,6 @@
   "loc.tdm.details": "Details",
   "loc.alert.success.title": "Ticket Successfully Created",
   "loc.alert.success.body": "Your ticket has been successfully recorded!",
-  "loc.tdm.close": "Close"
+  "loc.tdm.close": "Close",
+  "loc.tcs.coloredcars": "You're trying to add too many cars, the maximum amount is: "
 }

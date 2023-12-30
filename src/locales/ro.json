@@ -1,7 +1,7 @@
 {
   "welcome": "Bun venit",
   "description": "Aceasta este o descriere a aplicației în română.",
-  "loc.mainscreen.title": "Câte Tesla observăm azi?",
+  "loc.mainscreen.title": "Câte Tesla vedem azi?",
   "loc.mainscreen.date": "Astăzi:",
   "loc.mainscreen.createticket": "Crează biletul",
   "loc.mainscreen.seetickets": "Vizualizează Biletele",
@@ -30,5 +30,6 @@
   "loc.tdm.details": "Detalii Bilet",
   "loc.alert.success.title": "Bilet creat",
   "loc.alert.success.body": "Biletul tău a fost înregistrat cu succes!",
-  "loc.tdm.close": "Închide"
+  "loc.tdm.close": "Închide",
+  "loc.tcs.coloredcars": "Încerci să introduci prea multe mașini, maximul este: "
 }

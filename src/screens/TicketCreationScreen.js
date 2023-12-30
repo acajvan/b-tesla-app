@@ -16,16 +16,23 @@ const TicketCreationScreen = () => {
     const [selectedColor, setSelectedColor] = useState('');
     const [isColorSelected, setIsColorSelected] = useState(false);
     const { t } = useTranslation();
+
+    const [limitMessage, setLimitMessage] = useState('');
     const resetSelections = () => {
         setBetAmount(1);
         setSelectedColor('');
         setColorSelections([]);
+        setLimitMessage('');
     }
 
 
     useEffect(() => {
         setIsColorSelected(selectedColor !== '' );
     }, [selectedColor]);
+
+    useEffect(() => {
+        setLimitMessage('');
+    }, [betAmount]);
 
     const createTicket = async () => {
         const newTicket = {
@@ -68,18 +75,19 @@ const TicketCreationScreen = () => {
         const handleColorPress = () => {
             const colorName = color.toLowerCase();
             const existingColor = colorSelections.find(sel => sel.color === colorName);
-
-            if (existingColor) {
-                setColorSelections(colorSelections.map(sel =>
-                    sel.color === colorName ? { ...sel, quantity: sel.quantity + 1 } : sel
-                ));
+            const totalCars = colorSelections.reduce((sum, sel) => sum + sel.quantity, 0 );
+            if (totalCars < betAmount) {
+                if (existingColor) {
+                    setColorSelections(colorSelections.map(sel =>
+                        sel.color === colorName ? { ...sel, quantity: sel.quantity + 1 } : sel
+                    ));
             } else {
                 setColorSelections([...colorSelections, { color: colorName, quantity: 1}])
+                }
+            } else {
+                setLimitMessage(t("loc.tcs.coloredcars") + betAmount)
             }
         };
-
-
-
 
         return(
         <TouchableOpacity
@@ -132,6 +140,10 @@ const TicketCreationScreen = () => {
                         </Text>
                     ))}
                 </View>
+            )}
+
+            {limitMessage !== '' && (
+                <Text style={styles.limitMessage}>{limitMessage}</Text>
             )}
 
             <MainButton title={t("loc.mainscreen.createticket")} onPress={createTicket} />
@@ -235,6 +247,13 @@ const styles = StyleSheet.create({
     colorSelectionTextInLine: {
         color: "white",
         fontSize: 16
+    },
+    limitMessage: {
+        color: "red",
+        fontSize: 16,
+        textAlign: "center",
+        marginTop: 10,
+        marginBottom: 10
     }
 
 });
