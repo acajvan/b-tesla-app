@@ -51,10 +51,15 @@ const TicketDetailModal = ({ ticket, onClose, onDelete }) => {
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>{t("loc.tdm.details")}</Text>
                     <Text style={styles.modalInfo}>{t("loc.vts.caramount")} {ticket.betAmount}</Text>
-                    {ticket.color ?
-                        <Text style={styles.modalInfo}>{t("loc.vts.atleast")} {ticket.colorQuantity} {getColorPluralForm(ticket.color, ticket.colorQuantity)} </Text>
-                        : null
-                    }
+                        <View style={styles.colorInfoContainer}>
+                            <Text style={styles.textColorItem}>{t("loc.vts.atleast") + " "}</Text>
+                        {ticket.colors && ticket.colors.map((colorInfo, colorIndex) => (
+                            <Text key={colorIndex} style={styles.textColorItemInLine}>
+                                {colorInfo.quantity} {getColorPluralForm(colorInfo.color, colorInfo.quantity)}
+                                {colorIndex < ticket.colors.length - 1 ? ',' : ''}
+                            </Text>
+                        ))}
+                        </View>
                     <Text style={styles.modalInfo}>{t("loc.vts.date")}: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                     <View style={styles.actions}>
                         <TouchableOpacity
@@ -128,6 +133,22 @@ const styles = StyleSheet.create({
         padding: 5,
         marginLeft: 10
     },
+    textColorItem: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    colorInfoContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "wrap",
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    textColorItemInLine: {
+        marginRight: 5,
+        fontSize: 16,
+
+    }
 });
 
 export default TicketDetailModal;

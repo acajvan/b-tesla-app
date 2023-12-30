@@ -76,12 +76,16 @@ const ViewTicketsScreen = () => {
                             setSelectedTicket(ticket);
                             setModalVisible(true);
                         }}>
-                            <Text style={styles.textColorItem} >{t("loc.vts.caramount")} {ticket.betAmount}</Text>
+                            <Text style={styles.textColorItem}>{t("loc.vts.caramount")} {ticket.betAmount}</Text>
+                            <View style={styles.colorInfoContainer}>
+                            <Text style={styles.textColorItem}>{t("loc.vts.atleast") + " "}</Text>
                             {ticket.colors && ticket.colors.map((colorInfo, colorIndex) => (
-                                <Text key={colorIndex} style={styles.textColorItem}>
-                                    {t("loc.vts.atleast")} {colorInfo.quantity} {getColorPluralForm(colorInfo.color, colorInfo.quantity)}
+                                <Text key={colorIndex} style={styles.textColorItemInLine}>
+                                    {colorInfo.quantity} {getColorPluralForm(colorInfo.color, colorInfo.quantity)}
+                                    {colorIndex < ticket.colors.length - 1 ? ',' : ''}
                                 </Text>
                             ))}
+                            </View>
                             <Text style={styles.textColorItem}>{t("loc.vts.date")}: {new Date(ticket.dateCreated).toLocaleDateString(getLocale(), { day: 'numeric', month: 'numeric', year: 'numeric' })}</Text>
                         </TouchableOpacity>
                     ))}
@@ -150,6 +154,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#101d4b',
     },
+    colorInfoContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "wrap"
+    },
+    textColorItemInLine: {
+        color: "white",
+        fontSize: 20,
+        marginRight: 5
+    }
 });
 
 
