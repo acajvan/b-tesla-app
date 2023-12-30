@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import MainButton from '../components/MainButton';
 import Slider from "@react-native-community/slider/src/Slider";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,23 +12,20 @@ import { useTranslation } from "react-i18next";
 const TicketCreationScreen = () => {
     const [betAmount, setBetAmount] = useState(1);
     const navigation = useNavigation();
-    const [customColor, setCustomColor] = useState('');
     const [colorSelections, setColorSelections] = useState([]);
     const [selectedColor, setSelectedColor] = useState('');
-    const [colorQuantity, setColorQuantity] = useState(1);
     const [isColorSelected, setIsColorSelected] = useState(false);
     const { t } = useTranslation();
     const resetSelections = () => {
         setBetAmount(1);
         setSelectedColor('');
-        setCustomColor('');
         setColorSelections([]);
     }
 
 
     useEffect(() => {
-        setIsColorSelected(selectedColor !== '' || customColor !== '');
-    }, [selectedColor, customColor]);
+        setIsColorSelected(selectedColor !== '' );
+    }, [selectedColor]);
 
     const createTicket = async () => {
         const newTicket = {
@@ -50,7 +47,6 @@ const TicketCreationScreen = () => {
             //reset fields
             setBetAmount(1);
             setSelectedColor('');
-            setCustomColor('');
             setColorSelections([]);
             Alert.alert(t("loc.alert.success.title"), t("loc.alert.success.body"));
         }
@@ -107,9 +103,7 @@ const TicketCreationScreen = () => {
                 onPress={() => navigation.navigate('Main')}>
                 <Icon name="home" size={36} color="#8f0a6d" />
             </TouchableOpacity>
-
             <Text style={styles.header}>{t('loc.tcs.title')}</Text>
-
             <Text style={styles.label}>{t('loc.tcs.label')} {betAmount}</Text>
             <Slider
                 style={styles.slider}
@@ -128,35 +122,23 @@ const TicketCreationScreen = () => {
                 <ColorButton title="loc.tcs.red" color="Red" />
             </View>
 
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => {
-                    setCustomColor(text);
-                    setColorQuantity(0); //resting the quantity color
-                }}
-                value={customColor}
-                placeholder={t("loc.tcs.placeholder")}
-                placeholderTextColor={"white"}
-            />
-
             {colorSelections.length > 0 && (
                 <View style={styles.colorSelectionsContainer}>
+                    <Text style={styles.colorSelectionText}>{t("loc.tcs.atleast")}</Text>
                     {colorSelections.map((selection, index) => (
-                        <Text key={index} style={styles.colorSelectionText}>
+                        <Text key={index} style={styles.colorSelectionTextInLine}>
                             {`${selection.quantity} ${t(`loc.tcs.${selection.color}${selection.quantity > 1 ? '_plural' : ''}`, { count: selection.quantity })}`}
+                            {index < colorSelections.length - 1 ? ', ' : ''}
                         </Text>
                     ))}
                 </View>
             )}
 
-
             <MainButton title={t("loc.mainscreen.createticket")} onPress={createTicket} />
-
             <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={resetSelections}>
                 <Text style={styles.cancelButtonText}>{t("loc.tcs.cancel")}</Text>
-
             </TouchableOpacity>
         </View>
         </SafeAreaView>
@@ -208,6 +190,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
         justifyContent: "center",
         marginVertical: 10,
+        marginBottom: 25
     },
     input: {
       borderWidth: 1,
@@ -239,10 +222,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#101d4b',
     },
     colorSelectionsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
         margin: 10,
     },
     colorSelectionText: {
-        color: "white"
+        color: "white",
+        marginRight: 5,
+        fontSize: 16
+    },
+    colorSelectionTextInLine: {
+        color: "white",
+        fontSize: 16
     }
 
 });
