@@ -6,6 +6,7 @@ import MainScreen from './src/screens/MainScreen';
 import TicketCreationScreen from './src/screens/TicketCreationScreen';
 import viewTicketsScreen from "./src/screens/ViewTicketsScreen";
 import Register from "./src/screens/Register";
+import Login from "./src/screens/Login";
 import { LanguageProvider } from "./src/components/LanguageContext";
 
 
@@ -26,6 +27,7 @@ const App = () => {
           <NavigationContainer theme={DarkTheme}>
             <Stack.Navigator screenOptions={{headerShown: false, animation: "slide_from_right" }} initialRouteName="Register">
                 <Stack.Screen name="Register" component={Register} />
+                <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Main" component={MainScreen} />
                 <Stack.Screen name="CreateTicket" component={TicketCreationScreen} />
                 <Stack.Screen name="ViewTicket" component={viewTicketsScreen} />

@@ -1,17 +1,37 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button } from "react-native";
+import React, { useRef, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useLanguage } from "../components/LanguageContext";
 import i18n from "../locales/i18n";
+import {useNavigation} from "@react-navigation/native";
 import {useTranslation} from "react-i18next";
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigation = useNavigation();
 
     const { t } = useTranslation();
+
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    const fadeIn = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 2000,
+            useNativeDriver: true
+        }).start();
+    };
+
+    const fadeOut = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 2000,
+            useNativeDriver: true
+        }).start();
+    }
 
     const handleRegister = async () => {
         try {
@@ -33,6 +53,12 @@ const Register = () => {
             }
     
             console.log('Registration successful:', data);
+            fadeIn();
+            setTimeout(() => {
+                fadeOut();
+                navigation.navigate('Login');
+            }, 3000)
+            setError('');
             // Registration successful - navigate to login screen or show success message
         } catch (error) {
             console.error('Failed to register:', error);
@@ -55,6 +81,9 @@ const Register = () => {
                     <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
+                <Animated.View style={[styles.fadeView, { opacity: fadeAnim}]}>
+                    <Text>Registration successful</Text>
+                </Animated.View>
             </View>
         </SafeAreaView>
 
@@ -97,6 +126,17 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 16,
+    },
+    fadeView: {
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: [{ translateX: -100 }, { translateY: -50 }],
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+        width: 200,
+        alignItems: 'center',
     },
 });
 
