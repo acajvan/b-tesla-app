@@ -15,7 +15,7 @@ const Register = () => {
 
     const handleRegister = async () => {
         try {
-            const response = fetch('http://localhost:3000/register', {
+            const response = await fetch('http://192.168.0.37:3600/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,22 +25,20 @@ const Register = () => {
                     password
                 })
             });
-
-            const data = await response.json();
+    
+            const data = await response.json(); // Process the response
+    
             if (!response.ok) {
                 throw new Error(data.message || "Failed to register");
             }
-            // Registration successful - navigate to login screen
-            navigation.navigate('Login');
+    
             console.log('Registration successful:', data);
-
-            
-
-            }
-        catch (error) {
+            // Registration successful - navigate to login screen or show success message
+        } catch (error) {
             console.error('Failed to register:', error);
+            setError(error.message);
         }
-        }
+    };
     
     
 
@@ -53,7 +51,9 @@ const Register = () => {
             <View style={styles.container}>
                 <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
                 <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-                <Button title="Register" onPress={handleRegister} />
+                <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                    <Text style={styles.buttonText}>Register</Text>
+                </TouchableOpacity>
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
             </View>
         </SafeAreaView>
@@ -63,20 +63,40 @@ const Register = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginVertical: 20,
+        color: 'white',
     },
     input: {
         height: 40,
+        width: 200,
         borderColor: 'gray',
         borderWidth: 1,
         marginBottom: 20,
         paddingHorizontal: 10,
+        color: 'white',
     },
     errorText: {
         color: 'red',
         textAlign: 'center',
+    },
+    button: {
+        backgroundColor: '#007bff', 
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
     },
 });
 
