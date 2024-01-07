@@ -7,6 +7,7 @@ import TicketCreationScreen from './src/screens/TicketCreationScreen';
 import viewTicketsScreen from "./src/screens/ViewTicketsScreen";
 import Register from "./src/screens/Register";
 import Login from "./src/screens/Login";
+import Settings from "./src/screens/Settings";
 import { LanguageProvider } from "./src/components/LanguageContext";
 
 
@@ -31,6 +32,7 @@ const App = () => {
                 <Stack.Screen name="Main" component={MainScreen} />
                 <Stack.Screen name="CreateTicket" component={TicketCreationScreen} />
                 <Stack.Screen name="ViewTicket" component={viewTicketsScreen} />
+                <Stack.Screen name="Settings" component={Settings} />
             </Stack.Navigator>
           </NavigationContainer>
       </LanguageProvider>

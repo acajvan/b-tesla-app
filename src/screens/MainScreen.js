@@ -8,6 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import { useLanguage } from "../components/LanguageContext";
 import i18n from "../locales/i18n";
 import {useTranslation} from "react-i18next";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const MainScreen = () => {
 
@@ -41,6 +42,11 @@ const MainScreen = () => {
         <SafeAreaView style={styles.safeArea} >
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
         <View style={styles.container}>
+        <TouchableOpacity 
+                style={styles.settingsButton} 
+                onPress={() => navigation.navigate('Settings')}>
+                <Icon name="gear" size={30} color="white" />
+            </TouchableOpacity>
             <View style={styles.languageSwitcher}>
                <TouchableOpacity
                     style={[styles.languageButton, isEnglish ? styles.activeLanguage : {}]}
@@ -78,6 +84,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginVertical: 20,
         color: 'white',
+        textAlign: 'center',
     },
     date:{
         fontSize: 16,
@@ -114,7 +121,12 @@ const styles = StyleSheet.create({
     languageText: {
         color: "white",
         fontWeight: "bold"
-    }
+    },
+    settingsButton: {
+        position: 'absolute',
+        top: 40,
+        left: 20
+    },
 });
 
 export default MainScreen;

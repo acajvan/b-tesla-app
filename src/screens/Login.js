@@ -12,6 +12,16 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigation = useNavigation();
 
+
+    
+    const checkLogin = async () => {
+        const accessToken = await AsyncStorage.getItem('accessToken');
+        const refreshToken = await AsyncStorage.getItem('refreshToken');
+
+        console.log(accessToken);
+        console.log(refreshToken);
+    }
+
     const handleLogin = async () => {
         try {
             const response = await fetch('http://192.168.0.37:3600/auth/login', {
@@ -31,7 +41,7 @@ const Login = () => {
                 throw new Error(data.message || 'Login failed');
             }
     
-            // Handle successful login here (e.g., navigate to another screen, store tokens)
+            // Handle successful login
             await AsyncStorage.setItem('accessToken', data.accessToken);
             await AsyncStorage.setItem('refreshToken', data.refreshToken);
 
@@ -70,6 +80,11 @@ const Login = () => {
                 onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={checkLogin}>
+                <Text style={styles.buttonText}>test</Text>
+            </TouchableOpacity>
             {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </View>
     </SafeAreaView>
@@ -78,7 +93,6 @@ const Login = () => {
 
 const styles = StyleSheet.create({
     container: {
-
         justifyContent: 'center',
         alignItems: 'center'
     },
