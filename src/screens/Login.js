@@ -15,11 +15,9 @@ const Login = () => {
 
     
     const checkLogin = async () => {
-        const accessToken = await AsyncStorage.getItem('accessToken');
         const refreshToken = await AsyncStorage.getItem('refreshToken');
 
-        console.log(accessToken);
-        console.log(refreshToken);
+        console.log("Current Refresh Token: ",refreshToken);
     }
 
     const handleLogin = async () => {
@@ -44,6 +42,8 @@ const Login = () => {
             // Handle successful login
             await AsyncStorage.setItem('accessToken', data.accessToken);
             await AsyncStorage.setItem('refreshToken', data.refreshToken);
+
+            console.log("Stored Refresh Token: ", data.refreshToken);
 
             navigation.navigate('Main');
             console.log('Login successful:', data);

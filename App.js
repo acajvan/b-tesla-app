@@ -45,7 +45,9 @@ const App = () => {
                     const data = await response.json();
                     console.log("Response from Refresh:", data);
     
-                    if (data.accessToken) {
+                    if (data.refreshToken) {
+                        const newRefreshToken = data.refreshToken;
+                        await AsyncStorage.setItem('refreshToken', newRefreshToken);
                         await AsyncStorage.setItem('accessToken', data.accessToken);
                         console.log("Setting initial route to Main");
                         setInitialRoute('Main');
@@ -61,10 +63,11 @@ const App = () => {
                 console.error("Token refresh failed: ", error);
                 setInitialRoute('Login');
             }
-            setIsLoading(false);
+            setIsLoading(false); 
         };
         checkToken();
     }, []);
+    
 
     if (isLoading) {
         return <LoadingScreen />

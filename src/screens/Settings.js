@@ -9,6 +9,12 @@ const Settings = () => {
     const { language, toggleLanguage } = useLanguage();
     const isEnglish = language === "en";
 
+    const checkLogin = async () => {
+        const refreshToken = await AsyncStorage.getItem('refreshToken');
+
+        console.log("Current Refresh Token: ",refreshToken);
+    }
+
     const handleSetLanguage = (lang) => {
         toggleLanguage(lang);
     }
@@ -39,6 +45,12 @@ const Settings = () => {
             {/* Logout Button */}
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.logoutButtonText}>Logout</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+                style={styles.logoutButton} 
+                onPress={checkLogin}>
+                <Text style={styles.buttonText}>test</Text>
             </TouchableOpacity>
         </View>
     );
