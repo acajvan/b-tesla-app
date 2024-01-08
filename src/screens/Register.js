@@ -33,6 +33,10 @@ const Register = () => {
         }).start();
     }
 
+    const navigateToLogin = () => {
+        navigation.navigate('Login');
+    }
+
     const handleRegister = async () => {
         try {
             const response = await fetch('http://192.168.0.37:3600/auth/register', {
@@ -84,9 +88,13 @@ const Register = () => {
                 <Animated.View style={[styles.fadeView, { opacity: fadeAnim}]}>
                     <Text>Registration successful</Text>
                 </Animated.View>
+                <TouchableOpacity 
+                    style={styles.loginButton} 
+                    onPress={navigateToLogin}>
+                    <Text style={styles.loginButtonText}>Already have an account? Log In</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
-
     )
 }
 
@@ -137,6 +145,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: 200,
         alignItems: 'center',
+    },
+    loginButton: {
+        marginTop: 45,
+    },
+    loginButtonText: {
+        color: '#007bff',
+        fontSize: 16,
     },
 });
 
