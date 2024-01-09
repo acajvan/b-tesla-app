@@ -37,6 +37,11 @@ const Register = () => {
         navigation.navigate('Login');
     }
 
+    const onChangeEmail = (text) => {
+        setError('');
+        setEmail(text);
+    }
+
     const handleRegister = async () => {
         try {
             const response = await fetch('http://192.168.0.37:3600/auth/register', {
@@ -79,7 +84,7 @@ const Register = () => {
                 <Text style={styles.title}>Register</Text>
             </View>
             <View style={styles.container}>
-                <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
+                <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={onChangeEmail} />
                 <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
                 <TouchableOpacity style={styles.button} onPress={handleRegister}>
                     <Text style={styles.buttonText}>Register</Text>
@@ -118,10 +123,19 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingHorizontal: 10,
         color: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
     },
     errorText: {
         color: 'red',
         textAlign: 'center',
+        marginTop: 20,
+        fontSize: 16,
+        fontWeight: 'bold',
+        borderWidth: 0.5,
+        borderColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: 'rgba(255, 0, 0, 0.2)',
     },
     button: {
         backgroundColor: '#007bff', 

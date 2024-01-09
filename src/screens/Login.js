@@ -20,6 +20,11 @@ const Login = () => {
         console.log("Current Refresh Token: ",refreshToken);
     }
 
+    const navigateToRegister = () => {
+        navigation.navigate('Register');
+    }
+
+
     const handleLogin = async () => {
         try {
             const response = await fetch('http://192.168.0.37:3600/auth/login', {
@@ -58,69 +63,108 @@ const Login = () => {
 
 
   return (
-    <SafeAreaView>
-        <StatusBar />
-        <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
-            <TextInput 
-                style={styles.input} 
-                placeholder="Email" 
-                value={email} 
-                onChangeText={setEmail} 
-            />
-            <TextInput 
-                style={styles.input} 
-                placeholder="Password" 
-                value={password} 
-                onChangeText={setPassword} 
-                secureTextEntry 
-            />
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={handleLogin}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={checkLogin}>
-                <Text style={styles.buttonText}>test</Text>
-            </TouchableOpacity>
-            {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        </View>
-    </SafeAreaView>
-  )
-}
+    <SafeAreaView style={styles.safeArea}>
+            <StatusBar style="light" />
+            
+            
+            <View style={styles.container}>
+                <Text style={styles.title}>Login</Text>
+                
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        placeholderTextColor={'gray'}
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                </View>
+                
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                        placeholderTextColor={'gray'}
+                        secureTextEntry
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                </View>
+
+                <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+
+                <View style={styles.registerLink}>
+                    <Text>Don't have an account? </Text>
+                    <TouchableOpacity onPress={navigateToRegister}>
+                        <Text style={styles.linkText}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={checkLogin}>
+                    <Text style={styles.buttonText}>test</Text>
+                </TouchableOpacity>
+
+                {error ? <Text style={styles.errorText}>{error}</Text> : null}
+            </View>
+        </SafeAreaView>
+    );
+};
 
 const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+    },
+    backgroundImage: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+    },
     container: {
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 20,
     },
     title: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 20
+        color: '#fff',
+        marginBottom: 30,
+    },
+    inputContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 15,
+        width: '100%',
+        marginBottom: 20,
     },
     input: {
-        width: '80%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        padding: 10,
-        marginBottom: 10
+        color: '#fff',
+        fontSize: 16,
     },
     button: {
-        backgroundColor: 'blue',
-        padding: 10,
-        borderRadius: 5
+        backgroundColor: '#007bff',
+        padding: 15,
+        borderRadius: 15,
+        width: '100%',
+        alignItems: 'center',
     },
     buttonText: {
-        color: 'white'
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
-    errorText: {
-        color: 'red',
-        marginTop: 10
-    }
+    registerLink: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
+    linkText: {
+        color: '#007bff',
+        fontWeight: 'bold',
+    },
 });
 
 export default Login
