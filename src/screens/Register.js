@@ -35,6 +35,8 @@ const Register = () => {
 
     const navigateToLogin = () => {
         navigation.navigate('Login');
+        setEmail('');
+        setPassword('');
     }
 
     const onChangeEmail = (text) => {
@@ -68,12 +70,23 @@ const Register = () => {
                 navigation.navigate('Login');
             }, 3000)
             setError('');
+            setEmail('');
+            setPassword('');
             // Registration successful - navigate to login screen or show success message
         } catch (error) {
             console.error('Failed to register:', error);
             setError(error.message);
         }
     };
+
+    const isValidEmail = (email) => {
+        const emailRegex = /\S+@\S+\.\S+/;
+        return emailRegex.test(email);
+    }
+
+    const isFormValid = () => {
+        return email.length > 0 && password.length > 0 && isValidEmail(email);
+    }
     
     
 
@@ -90,7 +103,7 @@ const Register = () => {
                 <TextInput style={styles.input} placeholder="Password" placeholderTextColor={'gray'} value={password} onChangeText={setPassword} secureTextEntry />
             </View>
 
-                <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <TouchableOpacity style={[styles.button, !isFormValid() && styles.buttonDisabled]} onPress={handleRegister} disabled={!isFormValid()}>
                     <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
@@ -192,6 +205,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    buttonDisabled: {
+        backgroundColor: 'gray',
+        opacity: 0.5,
+    }
 });
 
 export default Register;
