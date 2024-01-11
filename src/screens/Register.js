@@ -82,10 +82,14 @@ const Register = () => {
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
             <View style={styles.container}>
                 <Text style={styles.title}>Register</Text>
+            
+            <View style={styles.inputContainer}>
+                <TextInput style={styles.input} placeholder="Email" placeholderTextColor={'gray'} value={email} onChangeText={onChangeEmail} />
             </View>
-            <View style={styles.container}>
-                <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={onChangeEmail} />
-                <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
+            <View style={styles.inputContainer}>
+                <TextInput style={styles.input} placeholder="Password" placeholderTextColor={'gray'} value={password} onChangeText={setPassword} secureTextEntry />
+            </View>
+
                 <TouchableOpacity style={styles.button} onPress={handleRegister}>
                     <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
@@ -93,37 +97,45 @@ const Register = () => {
                 <Animated.View style={[styles.fadeView, { opacity: fadeAnim}]}>
                     <Text>Registration successful</Text>
                 </Animated.View>
-                <TouchableOpacity 
-                    style={styles.loginButton} 
-                    onPress={navigateToLogin}>
-                    <Text style={styles.loginButtonText}>Already have an account? Log In</Text>
-                </TouchableOpacity>
+
+                <View style={styles.signUpContainer}>
+                    <Text style={styles.signUpText}>Already have an account? </Text>
+                    <TouchableOpacity style={styles.signUpButton} onPress={navigateToLogin}>
+                        <Text style={styles.signUpButtonText}> Log In </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+    },
     container: {
+        flex: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
     title: {
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
-        marginVertical: 20,
+        marginBottom: 30,
         color: 'white',
     },
-    input: {
-        height: 40,
-        width: 200,
-        borderColor: 'gray',
-        borderWidth: 1,
+    inputContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 15,
+        width: '80%',
         marginBottom: 20,
-        paddingHorizontal: 10,
+    },
+    input: {
         color: 'white',
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        fontSize: 16,
     },
     errorText: {
         color: 'red',
@@ -138,16 +150,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 0, 0, 0.2)',
     },
     button: {
-        backgroundColor: '#007bff', 
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#007bff',
+        padding: 15,
+        borderRadius: 15,
+        width: '80%',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
     },
     buttonText: {
-        color: 'white',
-        fontSize: 16,
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     fadeView: {
         position: 'absolute',
@@ -160,12 +172,25 @@ const styles = StyleSheet.create({
         width: 200,
         alignItems: 'center',
     },
-    loginButton: {
-        marginTop: 45,
+    signUpContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
     },
-    loginButtonText: {
-        color: '#007bff',
-        fontSize: 16,
+    signUpText: {
+        fontSize: 18,
+        color: '#fff',
+    },
+    signUpButton: {
+        backgroundColor: '#007bff',
+        padding: 10,
+        borderRadius: 5,
+    },
+    signUpButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 

@@ -64,8 +64,7 @@ const Login = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-            <StatusBar style="light" />
-            
+            <StatusBar style="light" backgroundColor="transparent" translucent={true} />
             
             <View style={styles.container}>
                 <Text style={styles.title}>Login</Text>
@@ -95,12 +94,17 @@ const Login = () => {
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
 
-                <View style={styles.registerLink}>
-                    <Text>Don't have an account? </Text>
-                    <TouchableOpacity onPress={navigateToRegister}>
-                        <Text style={styles.linkText}>Sign Up</Text>
+                <TouchableOpacity style={styles.forgotPasswordButton} onPress={() => { /* will implement the forgot password logic later */ }}>
+                    <Text style={styles.forgotPasswordText}>I forgot my password</Text>
+                </TouchableOpacity>
+
+                <View style={styles.signUpContainer}>
+                    <Text style={styles.signUpText}>Don't have an account? </Text>
+                    <TouchableOpacity style={styles.signUpButton} onPress={navigateToRegister}>
+                        <Text style={styles.signUpButtonText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
+
                 <TouchableOpacity style={styles.button} onPress={checkLogin}>
                     <Text style={styles.buttonText}>test</Text>
                 </TouchableOpacity>
@@ -114,11 +118,6 @@ const Login = () => {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-    },
-    backgroundImage: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
     },
     container: {
         flex: 1,
@@ -156,13 +155,32 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    registerLink: {
+    forgotPasswordButton: {
+        marginTop: 15,
+    },
+    forgotPasswordText: {
+        color: '#007bff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    signUpContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center',
         marginTop: 20,
     },
-    linkText: {
-        color: '#007bff',
+    signUpText: {
+        fontSize: 18,
+        color: '#fff',
+    },
+    signUpButton: {
+        backgroundColor: '#007bff',
+        padding: 10,
+        borderRadius: 5,
+    },
+    signUpButtonText: {
+        color: '#fff',
+        fontSize: 18,
         fontWeight: 'bold',
     },
 });
