@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     },
     signUpButton: {
         backgroundColor: '#007bff',
-        padding: 10,
-        borderRadius: 5,
+        padding: 8,
+        borderRadius: 10,
     },
     signUpButtonText: {
         color: '#fff',

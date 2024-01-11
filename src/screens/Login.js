@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Login = () => {
 
@@ -23,6 +24,13 @@ const Login = () => {
     const navigateToRegister = () => {
         navigation.navigate('Register');
     }
+
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    const isFormValid = () => isValidEmail(email) && password.length > 0;
 
 
     const handleLogin = async () => {
@@ -67,20 +75,26 @@ const Login = () => {
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
             
             <View style={styles.container}>
-                <Text style={styles.title}>Login</Text>
+                <Text style={styles.title}>Login and start your</Text>
+                <Text style={styles.titleTwo}>Tesla journey</Text>
                 
-                <View style={styles.inputContainer}>
+                <TouchableOpacity style={styles.inputContainer} onPress={() => this.emailInput.focus()}>
+                    <Icon name='envelope' style={styles.iconStyle} />
                     <TextInput
+                        ref={(input) => { this.emailInput = input; }}
                         style={styles.input}
                         placeholder="Email"
                         placeholderTextColor={'gray'}
                         value={email}
                         onChangeText={setEmail}
+                        keyboardType="email-address"
                     />
-                </View>
+                </TouchableOpacity>
                 
-                <View style={styles.inputContainer}>
+                <TouchableOpacity style={styles.inputContainer} onPress={() => this.passwordInput.focus()}>
+                    <Icon name='lock' style={styles.iconStyle} />
                     <TextInput
+                        ref={(input) => { this.passwordInput = input; }}
                         style={styles.input}
                         placeholder="Password"
                         placeholderTextColor={'gray'}
@@ -88,9 +102,11 @@ const Login = () => {
                         value={password}
                         onChangeText={setPassword}
                     />
-                </View>
+                </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <TouchableOpacity style={[styles.button, !isFormValid() && styles.buttonDisabled]}
+                    onPress={handleLogin}
+                    disabled={!isFormValid()}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
 
@@ -105,8 +121,8 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={checkLogin}>
-                    <Text style={styles.buttonText}>test</Text>
+                <TouchableOpacity style={styles.debugButton} onPress={checkLogin}>
+                    <Text style={styles.buttonText}>debug: test_login</Text>
                 </TouchableOpacity>
 
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
@@ -126,12 +142,22 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     title: {
-        fontSize: 30,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#fff',
+        textAlign: 'center',
+    },
+    titleTwo: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#fff',
+        textAlign: 'center',
         marginBottom: 30,
+
     },
     inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
         paddingHorizontal: 20,
         paddingVertical: 10,
@@ -139,7 +165,13 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 20,
     },
+    iconStyle: {
+        color: '#fff',
+        fontSize: 20,
+        marginRight: 10,
+    },
     input: {
+        flex: 1,
         color: '#fff',
         fontSize: 16,
     },
@@ -175,13 +207,25 @@ const styles = StyleSheet.create({
     },
     signUpButton: {
         backgroundColor: '#007bff',
-        padding: 10,
-        borderRadius: 5,
+        padding: 8,
+        borderRadius: 10,
     },
     signUpButtonText: {
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    buttonDisabled: {
+        backgroundColor: 'gray',
+        opacity: 0.5,
+    },
+    debugButton: {
+        backgroundColor: '#000',
+        padding: 15,
+        borderRadius: 15,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 30,
     },
 });
 
