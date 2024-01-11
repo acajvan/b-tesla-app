@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     const isValidEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /\S+@\S+\.\S+/;
         return emailRegex.test(email);
     }
 
@@ -121,9 +121,9 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.debugButton} onPress={checkLogin}>
+                {/* debug: test_login <TouchableOpacity style={styles.debugButton} onPress={checkLogin}>
                     <Text style={styles.buttonText}>debug: test_login</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
             </View>
@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         marginBottom: 30,
-
     },
     inputContainer: {
         flexDirection: 'row',
@@ -200,6 +199,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
+        marginBottom: 20,
     },
     signUpText: {
         fontSize: 18,

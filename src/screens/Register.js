@@ -6,6 +6,7 @@ import { useLanguage } from "../components/LanguageContext";
 import i18n from "../locales/i18n";
 import {useNavigation} from "@react-navigation/native";
 import {useTranslation} from "react-i18next";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -94,17 +95,36 @@ const Register = () => {
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
             <View style={styles.container}>
-                <Text style={styles.title}>Register</Text>
+                <Text style={styles.title}>Create an account</Text>
+                <Text style={styles.titleTwo}>and explore Teslas</Text>
             
-            <View style={styles.inputContainer}>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor={'gray'} value={email} onChangeText={onChangeEmail} />
-            </View>
-            <View style={styles.inputContainer}>
-                <TextInput style={styles.input} placeholder="Password" placeholderTextColor={'gray'} value={password} onChangeText={setPassword} secureTextEntry />
-            </View>
+            <TouchableOpacity style={styles.inputContainer} onPress={() => this.emailInput.focus()}>
+            <Icon name='envelope' style={styles.iconStyle} />
+                <TextInput 
+                    ref={(input) => { this.emailInput = input; }}
+                    style={styles.input} 
+                    placeholder="Email" 
+                    placeholderTextColor={'gray'} 
+                    value={email} 
+                    onChangeText={onChangeEmail}
+                    keyboardType="email-address" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.inputContainer} onPress={() => this.passwordInput.focus()}>
+            <Icon name='lock' style={styles.iconStyle} />
+                <TextInput 
+                    ref={(input) => { this.passwordInput = input; }}
+                    style={styles.input} 
+                    placeholder="Password" 
+                    placeholderTextColor={'gray'} 
+                    value={password} 
+                    onChangeText={setPassword} 
+                    secureTextEntry />
+            </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.button, !isFormValid() && styles.buttonDisabled]} onPress={handleRegister} disabled={!isFormValid()}>
-                    <Text style={styles.buttonText}>Register</Text>
+                <TouchableOpacity style={[styles.button, !isFormValid() && styles.buttonDisabled]} 
+                    onPress={handleRegister} 
+                    disabled={!isFormValid()}>
+                        <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
                 <Animated.View style={[styles.fadeView, { opacity: fadeAnim}]}>
@@ -133,12 +153,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: 23,
         fontWeight: 'bold',
-        marginBottom: 30,
         color: 'white',
     },
+    titleTwo: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#fff',
+        textAlign: 'center',
+        marginBottom: 30,
+    },
     inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
         paddingHorizontal: 20,
         paddingVertical: 10,
@@ -146,7 +174,13 @@ const styles = StyleSheet.create({
         width: '80%',
         marginBottom: 20,
     },
+    iconStyle: {
+        color: '#fff',
+        fontSize: 20,
+        marginRight: 10,
+    },
     input: {
+        flex: 1,
         color: 'white',
         fontSize: 16,
     },
@@ -190,6 +224,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
+        marginBottom: 70,
     },
     signUpText: {
         fontSize: 18,
