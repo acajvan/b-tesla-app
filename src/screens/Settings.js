@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLanguage } from '../components/LanguageContext';
@@ -8,6 +8,7 @@ const Settings = () => {
     const navigation = useNavigation();
     const { language, toggleLanguage } = useLanguage();
     const isEnglish = language === "en";
+    const [userEmail, setUserEmail] = useState('');
 
     const checkLogin = async () => {
         const refreshToken = await AsyncStorage.getItem('refreshToken');
@@ -23,13 +24,26 @@ const Settings = () => {
         // Clear stored tokens
         await AsyncStorage.removeItem('accessToken');
         await AsyncStorage.removeItem('refreshToken');
+        await AsyncStorage.removeItem('email');
 
         // Navigate to Login screen
         navigation.navigate('Login');
     };
+    useEffect(() => {
+        const fetchUserEmail = async () => {
+            const email = await AsyncStorage.getItem('email');
+            if (email) {
+                setUserEmail(email);
+            }
+        };
+
+        fetchUserEmail();
+    }, []);
 
     return (
         <View style={styles.container}>
+
+            {userEmail && <Text style={styles.userEmail}>{userEmail}</Text>}
             {/* Language Switcher */}
             <View style={styles.languageSwitcher}>
                <TouchableOpacity

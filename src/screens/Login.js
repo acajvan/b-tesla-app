@@ -17,8 +17,11 @@ const Login = () => {
     
     const checkLogin = async () => {
         const refreshToken = await AsyncStorage.getItem('refreshToken');
+        const email = await AsyncStorage.getItem('email');
+
 
         console.log("Current Refresh Token: ",refreshToken);
+        console.log("Current Email: ",email);
     }
 
     const navigateToRegister = () => {
@@ -55,6 +58,7 @@ const Login = () => {
             // Handle successful login
             await AsyncStorage.setItem('accessToken', data.accessToken);
             await AsyncStorage.setItem('refreshToken', data.refreshToken);
+            await AsyncStorage.setItem('email', email);
 
             console.log("Stored Refresh Token: ", data.refreshToken);
 
@@ -121,9 +125,9 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
 
-                {/* debug: test_login <TouchableOpacity style={styles.debugButton} onPress={checkLogin}>
+                <TouchableOpacity style={styles.debugButton} onPress={checkLogin}>
                     <Text style={styles.buttonText}>debug: test_login</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
 
                 {error ? <Text style={styles.errorText}>{error}</Text> : null}
             </View>
