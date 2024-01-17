@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLanguage } from '../components/LanguageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Settings = () => {
     const navigation = useNavigation();
@@ -42,8 +43,18 @@ const Settings = () => {
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.homeButton}
+                onPress={() => navigation.navigate('Main')}>
+                <Icon name="home" size={36} color="#8f0a6d" />
+            </TouchableOpacity>
 
-            {userEmail && <Text style={styles.userEmail}>{userEmail}</Text>}
+        {userEmail && (
+            <Text style={styles.userEmail}>
+                Currently logged in as:{"\n"} {"\n"}
+                <Text style={styles.userEmailBold}>{userEmail}</Text>
+            </Text>
+        )}
             {/* Language Switcher */}
             <View style={styles.languageSwitcher}>
                <TouchableOpacity
@@ -76,9 +87,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    homeButton: {
+        position: "absolute",
+        top: 80,
+        left: 20,
+    },
     languageSwitcher: {
-        position: 'relative',
-
+        position: 'absolute',
+        top: 80,
+        right: 20,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
@@ -105,6 +122,17 @@ const styles = StyleSheet.create({
     },
     logoutButtonText: {
         color: 'white'
+    },
+    userEmail: {
+        textAlign: 'center',
+        fontSize: 18,
+        color: 'white',
+        marginBottom: 20,
+    },
+    userEmailBold: {
+        fontWeight: 'bold',
+        color: 'white',
+        marginBottom: 20,
     }
 });
 

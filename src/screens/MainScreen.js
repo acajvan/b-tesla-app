@@ -5,7 +5,6 @@ import {useNavigation} from "@react-navigation/native";
 import {SvgFromUri} from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { useLanguage } from "../components/LanguageContext";
 import i18n from "../locales/i18n";
 import {useTranslation} from "react-i18next";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -14,8 +13,7 @@ const MainScreen = () => {
 
     const [currentDateTime, setCurrentDateTime] = useState('');
     const navigation = useNavigation();
-    const { language, toggleLanguage } = useLanguage();
-    const isEnglish = language === "en";
+
 
     useEffect(() => {
         const updateDateTime = () =>
@@ -34,10 +32,6 @@ const MainScreen = () => {
 
     const { t } = useTranslation();
 
-    const handleSetLanguage = (lang) => {
-        toggleLanguage(lang);
-    }
-
     return (
         <SafeAreaView style={styles.safeArea} >
             <StatusBar style="light" backgroundColor="transparent" translucent={true} />
@@ -47,16 +41,6 @@ const MainScreen = () => {
                 onPress={() => navigation.navigate('Settings')}>
                 <Icon name="gear" size={30} color="white" />
             </TouchableOpacity>
-            <View style={styles.languageSwitcher}>
-               <TouchableOpacity
-                    style={[styles.languageButton, isEnglish ? styles.activeLanguage : {}]}
-                    onPress={() => handleSetLanguage('en')}><Text style={styles.languageText}>EN</Text>
-               </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.languageButton, !isEnglish ? styles.activeLanguage : {}]}
-                    onPress={() => handleSetLanguage('ro')}><Text style={styles.languageText}>RO</Text>
-                </TouchableOpacity>
-            </View>
             <SvgFromUri uri={"https://www.svgrepo.com/show/342292/tesla.svg"} width={125} height={125} />
             <Text style={styles.title}>{t('loc.mainscreen.title')}</Text>
             <Text style={styles.date}>{t('loc.mainscreen.date')} {currentDateTime} </Text>
@@ -73,12 +57,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 20,
     },
-    menu: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        padding: 20,
-    },
     title: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -92,35 +70,9 @@ const styles = StyleSheet.create({
         textTransform: "capitalize",
         color: 'white',
     },
-    credits: {
-        fontSize: 10,
-        alignItems: "flex-end",
-    },
     safeArea: {
         flex: 1,
         backgroundColor: '#101d4b',
-    },
-    languageSwitcher: {
-        position: 'absolute',
-        top: 40,
-        right: 20,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 6
-    },
-    languageButton: {
-        backgroundColor: "#080f26",
-        padding: 8,
-        marginHorizontal: 3,
-        borderRadius: 2
-    },
-    activeLanguage: {
-        backgroundColor: "#8f0a6d"
-    },
-    languageText: {
-        color: "white",
-        fontWeight: "bold"
     },
     settingsButton: {
         position: 'absolute',
